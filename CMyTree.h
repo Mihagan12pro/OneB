@@ -13,7 +13,7 @@ protected:
 
 public:
 	COneBDoc* m_pDoc;
-	HTREEITEM m_hTablesList, m_hDrivers, m_hRoutes, m_hCars;
+	HTREEITEM m_hTablesList, m_hDrivers, m_hCircle, m_hCars;
 	void FillTree();
 
 #ifdef _DEBUG
@@ -27,6 +27,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 
