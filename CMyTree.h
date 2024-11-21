@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 class COneBDoc;
+class COneBView;
 class CMainFrame;
 // Просмотр CMyTree
 #include"afxcview.h"
@@ -13,8 +14,7 @@ protected:
 	virtual ~CTableExplorerView();
 
 public:
-	COneBDoc* m_pDoc;
-	HTREEITEM m_hTablesList, m_hDrivers, m_hCircle, m_hCars;
+	
 	void FillTree();
 
 #ifdef _DEBUG
@@ -25,13 +25,21 @@ public:
 #endif
 
 protected:
-	CMainFrame* pMainFrm;
-	friend class CMainFrame;
+	
 
+	
+	HTREEITEM m_hTablesList, m_hDrivers, m_hCircle, m_hCars;
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
+private:
+	CMainFrame* pMainFrm;
+	COneBDoc* m_pDoc;
+	COneBView* m_pMainView;
+private:
+	friend class CMainFrame;
+	friend class COneBDoc;
 };
 
 
