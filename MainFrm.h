@@ -46,7 +46,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
-
+	friend class  CTableExplorerView;
 	friend class COneBDoc;
 public:
 	afx_msg void OnClose();
@@ -58,7 +58,8 @@ private:
 	MYSQL_ROW row;
 
 
-	friend class COneBDoc;
+	
+	
 };
 
 

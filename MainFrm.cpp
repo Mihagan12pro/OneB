@@ -181,6 +181,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	pDoc->m_pTreeView->m_pDoc = pDoc;
 
 
+	pDoc->m_pTreeView->pMainFrm = this;
 
 	return TRUE;
 }

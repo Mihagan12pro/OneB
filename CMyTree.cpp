@@ -4,7 +4,7 @@
 #include "pch.h"
 #include "OneB.h"
 #include "CMyTree.h"
-
+#include"MainFrm.h"
 
 // CMyTree
 
@@ -92,7 +92,8 @@ void CTableExplorerView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
 
 	if (strItemText != L"Таблицы")
 	{
-		//AfxMessageBox(strItemText);
+		
+		
 	}
 
 		// TODO: добавьте свой код обработчика уведомлений

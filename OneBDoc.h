@@ -38,7 +38,7 @@ public:
 #endif
 
 protected:
-
+	 friend class CMainFrame;
 // Созданные функции схемы сообщений
 protected:
 	DECLARE_MESSAGE_MAP()

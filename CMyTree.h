@@ -1,6 +1,7 @@
 ﻿#pragma once
 
 class COneBDoc;
+class CMainFrame;
 // Просмотр CMyTree
 #include"afxcview.h"
 class CTableExplorerView : public CTreeView
@@ -24,6 +25,9 @@ public:
 #endif
 
 protected:
+	CMainFrame* pMainFrm;
+	friend class CMainFrame;
+
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
