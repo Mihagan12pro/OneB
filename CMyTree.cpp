@@ -8,18 +8,18 @@
 
 // CMyTree
 
-IMPLEMENT_DYNCREATE(CMyTree, CTreeView)
+IMPLEMENT_DYNCREATE(CTableExplorerView, CTreeView)
 
-CMyTree::CMyTree()
+CTableExplorerView::CTableExplorerView()
 {
 
 }
 
-CMyTree::~CMyTree()
+CTableExplorerView::~CTableExplorerView()
 {
 }
 
-BEGIN_MESSAGE_MAP(CMyTree, CTreeView)
+BEGIN_MESSAGE_MAP(CTableExplorerView, CTreeView)
 	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
@@ -27,29 +27,29 @@ END_MESSAGE_MAP()
 // Диагностика CMyTree
 
 #ifdef _DEBUG
-void CMyTree::AssertValid() const
+void CTableExplorerView::AssertValid() const
 {
 	CTreeView::AssertValid();
 }
 
 #ifndef _WIN32_WCE
-void CMyTree::Dump(CDumpContext& dc) const
+void CTableExplorerView::Dump(CDumpContext& dc) const
 {
 	CTreeView::Dump(dc);
 }
 
 
 
-void CMyTree::FillTree()
+void CTableExplorerView::FillTree()
 {
 	CTreeCtrl& tree = GetTreeCtrl();
 	tree.DeleteAllItems();
 
-	m_hLinesRoot = tree.InsertItem(L"Линии", -1, -1, NULL, TVI_FIRST);
+	m_hTablesList = tree.InsertItem(L"Таблицы", -1, -1, NULL, TVI_FIRST);
 
-	m_hLine1 = tree.InsertItem(L"Прямая1", -1, -1, m_hLinesRoot, TVI_FIRST);
-	m_hLine2 = tree.InsertItem(L"Прямая2", -1, -1, m_hLinesRoot, TVI_FIRST);
-	m_hCircle = tree.InsertItem(L"Окружность", -1, -1, m_hLinesRoot, TVI_FIRST);
+	m_hDrivers = tree.InsertItem(L"Водители", -1, -1, m_hTablesList, TVI_FIRST);
+	m_hCars = tree.InsertItem(L"Машины", -1, -1, m_hTablesList, TVI_FIRST);
+	m_hRoutes = tree.InsertItem(L"Рейсы", -1, -1, m_hTablesList, TVI_FIRST);
 
 }
 
@@ -61,7 +61,7 @@ void CMyTree::FillTree()
 // Обработчики сообщений CMyTree
 
 
-int CMyTree::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CTableExplorerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	lpCreateStruct->style |= TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_CHECKBOXES;
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)

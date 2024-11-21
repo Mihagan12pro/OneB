@@ -3,17 +3,17 @@
 class COneBDoc;
 // Просмотр CMyTree
 #include"afxcview.h"
-class CMyTree : public CTreeView
+class CTableExplorerView : public CTreeView
 {
-	DECLARE_DYNCREATE(CMyTree)
+	DECLARE_DYNCREATE(CTableExplorerView)
 
 protected:
-	CMyTree();           // защищенный конструктор, используемый при динамическом создании
-	virtual ~CMyTree();
+	CTableExplorerView();           // защищенный конструктор, используемый при динамическом создании
+	virtual ~CTableExplorerView();
 
 public:
 	COneBDoc* m_pDoc;
-	HTREEITEM m_hLinesRoot, m_hLine1, m_hCircle, m_hLine2;
+	HTREEITEM m_hTablesList, m_hDrivers, m_hRoutes, m_hCars;
 	void FillTree();
 
 #ifdef _DEBUG

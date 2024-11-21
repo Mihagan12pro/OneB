@@ -4,7 +4,7 @@
 
 
 #pragma once
-class CMyTree;
+class CTableExplorerView;
 class COneBView;
 
 class COneBDoc : public CDocument
@@ -15,7 +15,7 @@ protected: // создать только из сериализации
 
 // Атрибуты
 public:
-	CMyTree* m_pTreeView;
+	CTableExplorerView* m_pTreeView;
 	COneBView* m_pView;
 // Операции
 public:

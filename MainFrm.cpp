@@ -102,14 +102,14 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	// TODO: добавьте специализированный код или вызов базового класса
 	m_wndSplitter.CreateStatic(this,1,2);
 
-	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CMyTree), CSize(400, 0), pContext);
+	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CTableExplorerView), CSize(400, 0), pContext);
 	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(COneBView), CSize(0, 0), pContext);
 
 	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
 
 	COneBDoc* pDoc = (COneBDoc*)GetActiveDocument();
 
-	pDoc->m_pTreeView = (CMyTree*)m_wndSplitter.GetPane(0, 0);
+	pDoc->m_pTreeView = (CTableExplorerView*)m_wndSplitter.GetPane(0, 0);
 	pDoc->m_pView = (COneBView*)m_wndSplitter.GetPane(0, 1);
 
 	pDoc->m_pTreeView->m_pDoc = pDoc;

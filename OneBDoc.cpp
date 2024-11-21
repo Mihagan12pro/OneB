@@ -53,7 +53,7 @@ BOOL COneBDoc::OnNewDocument()
 	if (MainWnd)
 	{
 
-		m_pTreeView = (CMyTree*)((CMainFrame*)MainWnd)->m_wndSplitter.GetPane(0, 0);
+		m_pTreeView = (CTableExplorerView*)((CMainFrame*)MainWnd)->m_wndSplitter.GetPane(0, 0);
 
 		m_pTreeView->m_pDoc = this;
 		m_pView = (COneBView*)((CMainFrame*)MainWnd)->m_wndSplitter.GetPane(0, 1);
