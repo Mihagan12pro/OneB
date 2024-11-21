@@ -13,12 +13,14 @@
 #define new DEBUG_NEW
 #endif
 
+using namespace std;
 // CMainFrame
 
 IMPLEMENT_DYNCREATE(CMainFrame, CFrameWnd)
 
 BEGIN_MESSAGE_MAP(CMainFrame, CFrameWnd)
 	ON_WM_CREATE()
+	ON_WM_CLOSE()
 END_MESSAGE_MAP()
 
 static UINT indicators[] =
@@ -38,6 +40,54 @@ CMainFrame::CMainFrame() noexcept
 
 CMainFrame::~CMainFrame()
 {
+}
+
+
+void CMainFrame::OnOpenMySql()
+{
+	
+
+	int i = 0;
+	// Получаем дескриптор соединения
+	conn = mysql_init(NULL);
+	if (conn == NULL)
+	{
+		// Если дескриптор не получен – выводим сообщение об ошибке
+		fprintf(stderr, "Error: can'tcreate MySQL-descriptor\n");
+
+	}
+	// Подключаемся к серверу
+	if (!mysql_real_connect(conn, "localhost", "root", "1234", "database", NULL, NULL, 0))
+	{
+		// Если нет возможности установить соединение с сервером
+		// базы данных выводим сообщение об ошибке
+		fprintf(stderr, "Error: can'tconnecttodatabase %s\n", mysql_error(conn));
+	}
+	else
+	{
+
+	}
+
+	mysql_set_character_set(conn, "cp1251");
+	//Смотрим изменилась ли кодировка на нужную, по умалчанию идёт latin1
+
+
+
+	string logon = string();
+
+	//cout << logon;
+
+	DWORD sz = 256;
+
+	char buff[256];
+
+	GetComputerNameA(buff, &sz);
+
+	string compname(buff);
+	sz = 256;
+
+	GetUserNameA(buff, &sz);
+	string user(buff);
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
@@ -63,6 +113,22 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	m_wndToolBar.EnableDocking(CBRS_ALIGN_ANY);
 	EnableDocking(CBRS_ALIGN_ANY);
 	DockControlBar(&m_wndToolBar);
+
+
+
+
+
+
+
+
+
+	OnOpenMySql();
+
+
+
+
+
+
 
 
 	return 0;
@@ -117,4 +183,14 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 
 
 	return TRUE;
+}
+
+
+void CMainFrame::OnClose()
+{
+	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
+	
+
+	mysql_close(conn);
+	CFrameWnd::OnClose();
 }

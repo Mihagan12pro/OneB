@@ -5,6 +5,11 @@
 #pragma once
 class COneBView;
 class ConeBDoc;
+
+#include "mysql.h"
+#include <locale>
+#include <string>
+#include <lm.h>
 class CMainFrame : public CFrameWnd
 {
 	
@@ -41,6 +46,17 @@ protected:
 	DECLARE_MESSAGE_MAP()
 
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
+
+	friend class COneBDoc;
+public:
+	afx_msg void OnClose();
+private:
+	void OnOpenMySql();
+
+	MYSQL* conn;
+	MYSQL_RES* res;
+	MYSQL_ROW row;
+
 
 	friend class COneBDoc;
 };

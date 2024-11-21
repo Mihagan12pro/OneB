@@ -4,6 +4,11 @@
 
 #include "pch.h"
 #include "framework.h"
+
+
+using namespace std;
+
+
 // SHARED_HANDLERS можно определить в обработчиках фильтров просмотра реализации проекта ATL, эскизов
 // и поиска; позволяет совместно использовать код документа в данным проекте.
 #ifndef SHARED_HANDLERS
@@ -20,6 +25,8 @@
 #endif
 
 // COneBDoc
+
+
 
 IMPLEMENT_DYNCREATE(COneBDoc, CDocument)
 
