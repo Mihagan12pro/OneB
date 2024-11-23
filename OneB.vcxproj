@@ -213,6 +213,7 @@
     <ResourceCompile Include="OneB.rc" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="logistic.mwb" />
     <None Include="res\OneB.rc2" />
   </ItemGroup>
   <ItemGroup>

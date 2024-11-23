@@ -82,27 +82,30 @@ int CTableExplorerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CTableExplorerView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	//CTreeCtrl& tree = GetTreeCtrl();
+	CTreeCtrl& tree = GetTreeCtrl();
 
-	//CPoint usersCurcsor;
-	//GetCursorPos(&usersCurcsor);
-	//ScreenToClient(&usersCurcsor);
+	HTREEITEM selectedItem = tree.GetSelectedItem();
 
-	//// Получаем элемент по позиции курсора
-	//HTREEITEM hClickedItem = tree.HitTest(usersCurcsor);
+	if (selectedItem != m_hTablesList)
+	{
+		string sqlQuery = "SELECT *";
 
-	//CString strItemText;
-	//strItemText = tree.GetItemText(hClickedItem);
+		if (selectedItem == m_hCars)
+		{
+			sqlQuery = "FROM 'cars' " + sqlQuery;
+		}
+		else if (selectedItem == m_hDrivers)
+		{
+			sqlQuery = "FROM 'drivers' " + sqlQuery;
+		}
+		else if (selectedItem == m_hRoutes)
+		{
+			sqlQuery = "FROM 'routes' " + sqlQuery;
+		}
 
-	//if (strItemText != L"Таблицы")
-	//{
-	//	CListCtrl& table = m_pMainView -> GetListCtrl();
+		auto a = sqlQuery;
 
-	//	string sql;
-
-	//
-	//	
-	//}
+	}
 
 
 
@@ -125,18 +128,18 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 	
 		if (selectedItem == m_hCars)
 		{
-			sqlQuery = "FROM 'cars'" + sqlQuery;
+			sqlQuery = "FROM 'cars' " + sqlQuery;
 		}
 		else if (selectedItem == m_hDrivers)
 		{
-			sqlQuery = "FROM 'drivers'" + sqlQuery;
+			sqlQuery = "FROM 'drivers' " + sqlQuery;
 		}
 		else if (selectedItem == m_hRoutes)
 		{
-			sqlQuery = "FROM 'routes'" + sqlQuery;
+			sqlQuery = "FROM 'routes' " + sqlQuery;
 		}
 
-
+		auto a = sqlQuery;
 
 	}
 
@@ -153,6 +156,9 @@ CTreeView::OnLButtonDown(nFlags, point);
 
 void CTableExplorerView::OnLButtonUp(UINT nFlags, CPoint point)
 {
+
+
+
 	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
 	CTreeView::OnLButtonUp(nFlags, point);
 }
