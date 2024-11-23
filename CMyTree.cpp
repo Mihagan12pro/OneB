@@ -23,9 +23,13 @@ CTableExplorerView::~CTableExplorerView()
 
 BEGIN_MESSAGE_MAP(CTableExplorerView, CTreeView)
 	ON_WM_CREATE()
-	ON_NOTIFY_REFLECT(NM_CLICK, &CTableExplorerView::OnNMClick)
 	ON_WM_LBUTTONDOWN()
 	ON_WM_LBUTTONUP()
+	ON_WM_MOUSEMOVE()
+	ON_WM_KEYDOWN()
+	ON_WM_MOUSEACTIVATE()
+	ON_WM_KEYDOWN()
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 
@@ -57,7 +61,18 @@ void CTableExplorerView::FillTree()
 	m_hRoutes = tree.InsertItem(L"Рейсы", -1, -1, m_hTablesList, TVI_FIRST);
 
 
+	tree.SetItemData(m_hTablesList, -1);
+
+	tree.SetItemData(m_hRoutes,0);
+	tree.SetItemData(m_hCars, 1);
+	tree.SetItemData(m_hDrivers, 2);
+
+
+
+
 	tree.Expand(m_hTablesList, TVE_EXPAND);
+
+	//tree.SelectItem(m_hTablesList);
 }
 
 
@@ -80,69 +95,32 @@ int CTableExplorerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 
-void CTableExplorerView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
-{
-	CTreeCtrl& tree = GetTreeCtrl();
 
-	HTREEITEM selectedItem = tree.GetSelectedItem();
-
-	if (selectedItem != m_hTablesList)
-	{
-		string sqlQuery = "SELECT *";
-
-		if (selectedItem == m_hCars)
-		{
-			sqlQuery = "FROM 'cars' " + sqlQuery;
-		}
-		else if (selectedItem == m_hDrivers)
-		{
-			sqlQuery = "FROM 'drivers' " + sqlQuery;
-		}
-		else if (selectedItem == m_hRoutes)
-		{
-			sqlQuery = "FROM 'routes' " + sqlQuery;
-		}
-
-		auto a = sqlQuery;
-
-	}
-
-
-
-		// TODO: добавьте свой код обработчика уведомлений
-	*pResult = 0;
-}
 
 
 void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 {
-	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
-
 	CTreeCtrl& tree = GetTreeCtrl();
+	HTREEITEM item = tree.GetSelectedItem();
 	
-	HTREEITEM selectedItem = tree.GetSelectedItem();
-
-	if (selectedItem != m_hTablesList)
+	if (item == m_hRoutes)
 	{
-		string sqlQuery="SELECT *";
-	
-		if (selectedItem == m_hCars)
-		{
-			sqlQuery = "FROM 'cars' " + sqlQuery;
-		}
-		else if (selectedItem == m_hDrivers)
-		{
-			sqlQuery = "FROM 'drivers' " + sqlQuery;
-		}
-		else if (selectedItem == m_hRoutes)
-		{
-			sqlQuery = "FROM 'routes' " + sqlQuery;
-		}
-
-		auto a = sqlQuery;
-
+		//Мой код
+		int a = 1;
+		
 	}
 
+	else if (item == m_hDrivers)
+	{
+		//Мой код
+		int a = 1;
+	}
+
+	else if (item == m_hCars)
+	{
+		//Мой код
+		int a = 1;
+	}
 
 
 
@@ -154,11 +132,29 @@ CTreeView::OnLButtonDown(nFlags, point);
 }
 
 
-void CTableExplorerView::OnLButtonUp(UINT nFlags, CPoint point)
-{
-
-
-
+//void CTableExplorerView::OnLButtonDblClk(UINT nFlags, CPoint point)
+//{
 	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
-	CTreeView::OnLButtonUp(nFlags, point);
-}
+//	CTreeCtrl& tree = GetTreeCtrl();
+//	HTREEITEM item = tree.GetSelectedItem();
+//
+//	if (item == m_hRoutes)
+//	{
+		//Мой код
+//		int a = 1;
+//	}
+//
+//	else if (item == m_hDrivers)
+//	{
+		//Мой код
+//		int a = 1;
+//	}
+//
+//	else if (item == m_hCars)
+//	{
+		//Мой код
+//		int a = 1;
+//	}
+//
+//	CTreeView::OnLButtonDblClk(nFlags, point);
+//}

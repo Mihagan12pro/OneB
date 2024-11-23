@@ -27,13 +27,14 @@ public:
 
 protected:
 	
-
+	
 	
 	HTREEITEM m_hTablesList, m_hDrivers, m_hRoutes, m_hCars;
+	
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
+//	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
 private:
 	CMainFrame* pMainFrm;
 	COneBDoc* m_pDoc;
@@ -43,7 +44,8 @@ private:
 	friend class COneBDoc;
 public:
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
-	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
+
+//	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 
 
