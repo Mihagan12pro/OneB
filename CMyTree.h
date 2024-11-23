@@ -3,8 +3,9 @@
 class COneBDoc;
 class COneBView;
 class CMainFrame;
-// Просмотр CMyTree
+
 #include"afxcview.h"
+
 class CTableExplorerView : public CTreeView
 {
 	DECLARE_DYNCREATE(CTableExplorerView)
@@ -28,7 +29,7 @@ protected:
 	
 
 	
-	HTREEITEM m_hTablesList, m_hDrivers, m_hCircle, m_hCars;
+	HTREEITEM m_hTablesList, m_hDrivers, m_hRoutes, m_hCars;
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
@@ -40,6 +41,9 @@ private:
 private:
 	friend class CMainFrame;
 	friend class COneBDoc;
+public:
+	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+	afx_msg void OnLButtonUp(UINT nFlags, CPoint point);
 };
 
 

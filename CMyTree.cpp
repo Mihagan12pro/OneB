@@ -4,8 +4,10 @@
 #include "pch.h"
 #include "OneB.h"
 #include "CMyTree.h"
-#include"MainFrm.h"
-
+#include "MainFrm.h"
+#include "OneBView.h"
+#include<string>
+using namespace std;
 // CMyTree
 
 IMPLEMENT_DYNCREATE(CTableExplorerView, CTreeView)
@@ -22,6 +24,8 @@ CTableExplorerView::~CTableExplorerView()
 BEGIN_MESSAGE_MAP(CTableExplorerView, CTreeView)
 	ON_WM_CREATE()
 	ON_NOTIFY_REFLECT(NM_CLICK, &CTableExplorerView::OnNMClick)
+	ON_WM_LBUTTONDOWN()
+	ON_WM_LBUTTONUP()
 END_MESSAGE_MAP()
 
 
@@ -50,10 +54,10 @@ void CTableExplorerView::FillTree()
 
 	m_hDrivers = tree.InsertItem(L"Водители", -1, -1, m_hTablesList, TVI_FIRST);
 	m_hCars = tree.InsertItem(L"Машины", -1, -1, m_hTablesList, TVI_FIRST);
-	m_hCircle = tree.InsertItem(L"Рейсы", -1, -1, m_hTablesList, TVI_FIRST);
+	m_hRoutes = tree.InsertItem(L"Рейсы", -1, -1, m_hTablesList, TVI_FIRST);
 
 
-
+	tree.Expand(m_hTablesList, TVE_EXPAND);
 }
 
 
@@ -66,7 +70,7 @@ void CTableExplorerView::FillTree()
 
 int CTableExplorerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
-	lpCreateStruct->style |= TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS | TVS_SINGLEEXPAND;
+	lpCreateStruct->style |= TVS_HASLINES | TVS_HASBUTTONS | TVS_LINESATROOT | TVS_SHOWSELALWAYS;
 	if (CTreeView::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
@@ -78,24 +82,77 @@ int CTableExplorerView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 void CTableExplorerView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
 {
-	CTreeCtrl& tree = GetTreeCtrl();
+	//CTreeCtrl& tree = GetTreeCtrl();
 
-	CPoint usersCurcsor;
-	GetCursorPos(&usersCurcsor);
-	ScreenToClient(&usersCurcsor);
+	//CPoint usersCurcsor;
+	//GetCursorPos(&usersCurcsor);
+	//ScreenToClient(&usersCurcsor);
 
-	// Получаем элемент по позиции курсора
-	HTREEITEM hClickedItem = tree.HitTest(usersCurcsor);
+	//// Получаем элемент по позиции курсора
+	//HTREEITEM hClickedItem = tree.HitTest(usersCurcsor);
 
-	CString strItemText;
-	strItemText = tree.GetItemText(hClickedItem);
+	//CString strItemText;
+	//strItemText = tree.GetItemText(hClickedItem);
 
-	if (strItemText != L"Таблицы")
-	{
-		
-		
-	}
+	//if (strItemText != L"Таблицы")
+	//{
+	//	CListCtrl& table = m_pMainView -> GetListCtrl();
+
+	//	string sql;
+
+	//
+	//	
+	//}
+
+
 
 		// TODO: добавьте свой код обработчика уведомлений
 	*pResult = 0;
+}
+
+
+void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
+{
+	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
+
+	CTreeCtrl& tree = GetTreeCtrl();
+	
+	HTREEITEM selectedItem = tree.GetSelectedItem();
+
+	if (selectedItem != m_hTablesList)
+	{
+		string sqlQuery="SELECT *";
+	
+		if (selectedItem == m_hCars)
+		{
+			sqlQuery = "FROM 'cars'" + sqlQuery;
+		}
+		else if (selectedItem == m_hDrivers)
+		{
+			sqlQuery = "FROM 'drivers'" + sqlQuery;
+		}
+		else if (selectedItem == m_hRoutes)
+		{
+			sqlQuery = "FROM 'routes'" + sqlQuery;
+		}
+
+
+
+	}
+
+
+
+
+
+CTreeView::OnLButtonDown(nFlags, point);
+
+
+
+}
+
+
+void CTableExplorerView::OnLButtonUp(UINT nFlags, CPoint point)
+{
+	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
+	CTreeView::OnLButtonUp(nFlags, point);
 }
