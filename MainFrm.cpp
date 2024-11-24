@@ -57,11 +57,13 @@ void CMainFrame::OnOpenMySql()
 
 	}
 	// Подключаемся к серверу
-	if (!mysql_real_connect(conn, "localhost", "root", "1234", "database", NULL, NULL, 0))
+	if (!mysql_real_connect(conn, "localhost", "root", "7kjwf*jaksdfVHJ8ds", "logistic", NULL, NULL, 0))
 	{
 		// Если нет возможности установить соединение с сервером
 		// базы данных выводим сообщение об ошибке
-		fprintf(stderr, "Error: can'tconnecttodatabase %s\n", mysql_error(conn));
+		
+		MessageBox(L"Unfortunately, we have some troubles with connecting to database!");
+		OnClose();
 	}
 	else
 	{
@@ -88,6 +90,7 @@ void CMainFrame::OnOpenMySql()
 
 	GetUserNameA(buff, &sz);
 	string user(buff);
+
 }
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)

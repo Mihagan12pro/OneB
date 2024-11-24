@@ -2,11 +2,13 @@
 //
 
 #include "pch.h"
+#include<iostream>
 #include "OneB.h"
 #include "CMyTree.h"
 #include "MainFrm.h"
 #include "OneBView.h"
 #include<string>
+
 using namespace std;
 // CMyTree
 
@@ -103,32 +105,58 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 	CTreeCtrl& tree = GetTreeCtrl();
 	HTREEITEM item = tree.GetSelectedItem();
 	
+	string query = " SELECT *";
+	
+
 	if (item == m_hRoutes)
 	{
 		//Мой код
-		int a = 1;
+		//int a = 1;
+		query = "FROM 'routes'" + query;
+		
 		
 	}
 
 	else if (item == m_hDrivers)
 	{
 		//Мой код
-		int a = 1;
+		//int a = 1;
+		query = "FROM 'drivers'" + query;
 	}
 
 	else if (item == m_hCars)
 	{
 		//Мой код
-		int a = 1;
+		//int a = 1;
+		query = "FROM 'cars'" + query;
 	}
+	string sql = "SELECT * FROM cars";
+
+	int result = mysql_query(pMainFrm->conn, sql.c_str());
+
+	cout << endl << result;
+
+	if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+	{
+		while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+		{
+			for (int i = 0; i < mysql_num_fields(pMainFrm->res); i++) 
+			{
+				auto a = pMainFrm->row[i];
+				auto b = a;
+				std::cout << pMainFrm->row[i] << "\t"; //Выводим все что есть в базе через цикл
+			}
+			std::cout << "\n";
+		}
+	}
+	else
+		fprintf(stderr, "%s\n", mysql_error(pMainFrm->conn));
 
 
+	
 
 
 CTreeView::OnLButtonDown(nFlags, point);
-
-
-
 }
 
 

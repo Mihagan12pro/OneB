@@ -54,7 +54,7 @@ private:
 	void OnOpenMySql();
 
 	MYSQL* conn;
-	MYSQL_RES* res;
+	MYSQL_RES* res, * reslogon, * reslogoff;
 	MYSQL_ROW row;
 
 
