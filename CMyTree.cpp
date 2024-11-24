@@ -7,6 +7,7 @@
 #include "CMyTree.h"
 #include "MainFrm.h"
 #include "OneBView.h"
+#include<vector>
 #include<string>
 
 #define CARS 0
@@ -111,8 +112,8 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 	CTreeCtrl& tree = GetTreeCtrl();
 	HTREEITEM item = tree.GetSelectedItem();
 	
-	string query = " SELECT *";
 	
+	string sqlSelectQuery = "SELECT * FROM ";
 	
 	if (item != m_hTablesList)
 	{
@@ -120,76 +121,51 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 
 		pTable->DeleteAllItems();
 
-		if (m_LastTable == ROUTES)
-		{
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-		}
-		else if (m_LastTable == CARS)
-		{
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-		}
-		else if (m_LastTable == DRIVERS)
-		{
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-			pTable->DeleteColumn(0);
-		}
+		CHeaderCtrl *pTableHeaders = pTable->GetHeaderCtrl();
 
+		int fieldsCount = pTableHeaders->GetItemCount();
+
+		for (int i = 0; i < fieldsCount;i++)
+		{
+			pTable->DeleteColumn(0);
+		}
 
 		if (item == m_hRoutes)
 		{
-			//Мой код
-			//int a = 1;
-			query = "FROM 'routes'" + query;
-			m_LastTable = ROUTES;
-
+			sqlSelectQuery += "routes";
 			pTable->InsertColumn(0,L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(2, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(3, L"Пункт назначения", LVCFMT_LEFT, COLUMN_WIDTH);
-
 		}
 
 		else if (item == m_hDrivers)
 		{
-			m_LastTable = DRIVERS;
 			pTable->InsertColumn(0, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			//Мой код
-			//int a = 1;
-			query = "FROM 'drivers'" + query;
+			sqlSelectQuery += "drivers";
 		}
 
 		else if (item == m_hCars)
 		{
-			m_LastTable = CARS;
 			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
-		
-			//Мой код
-			//int a = 1;
-			query = "FROM 'cars'" + query;
+			sqlSelectQuery += "cars";
 		}
 
 
 
 
-	
+		
+
+		
+		
+
+		
 
 
-		//pTable->DeleteColumn(0);
-
-
-
-		string sql = "SELECT * FROM cars";
-
-
-		int result = mysql_query(pMainFrm->conn, sql.c_str());
+		int result = mysql_query(pMainFrm->conn, sqlSelectQuery.c_str());
 
 		cout << endl << result;
 
