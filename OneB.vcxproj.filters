@@ -73,6 +73,7 @@
       <Filter>Файлы ресурсов</Filter>
     </None>
     <None Include="logistic.mwb" />
+    <None Include="x64\Debug\libmysql.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\OneBDoc.ico">

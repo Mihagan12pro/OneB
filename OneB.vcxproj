@@ -215,6 +215,7 @@
   <ItemGroup>
     <None Include="logistic.mwb" />
     <None Include="res\OneB.rc2" />
+    <None Include="x64\Debug\libmysql.dll" />
   </ItemGroup>
   <ItemGroup>
     <Image Include="res\OneB.ico" />

@@ -27,6 +27,7 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	ON_COMMAND(ID_FILE_PRINT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -48,7 +49,10 @@ BOOL COneBView::PreCreateWindow(CREATESTRUCT& cs)
 
 	return CListView::PreCreateWindow(cs);
 }
-
+CListCtrl *COneBView::GetTable()
+{
+	return pTable;
+}
 
 void COneBView::OnDraw(CDC* /*pDC*/)
 {
@@ -110,3 +114,17 @@ COneBDoc* COneBView::GetDocument() const // встроена неотлажен�
 
 
 // Обработчики сообщений COneBView
+
+
+int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CListView::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Добавьте специализированный код создания
+
+	pTable = &GetListCtrl();
+	pTable->ModifyStyle(0, LVS_REPORT);
+
+	return 0;
+}

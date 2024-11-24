@@ -30,6 +30,7 @@ protected:
 	
 	
 	HTREEITEM m_hTablesList, m_hDrivers, m_hRoutes, m_hCars;
+	int m_LastTable;
 	
 	DECLARE_MESSAGE_MAP()
 public:

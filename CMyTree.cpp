@@ -9,6 +9,12 @@
 #include "OneBView.h"
 #include<string>
 
+#define CARS 0
+#define DRIVERS 1
+#define ROUTES 2
+
+#define COLUMN_WIDTH 240
+
 using namespace std;
 // CMyTree
 
@@ -107,54 +113,105 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	string query = " SELECT *";
 	
-
-	if (item == m_hRoutes)
+	
+	if (item != m_hTablesList)
 	{
-		//Мой код
-		//int a = 1;
-		query = "FROM 'routes'" + query;
-		
-		
-	}
+		CListCtrl *pTable = m_pMainView -> GetTable();
 
-	else if (item == m_hDrivers)
-	{
-		//Мой код
-		//int a = 1;
-		query = "FROM 'drivers'" + query;
-	}
+		pTable->DeleteAllItems();
 
-	else if (item == m_hCars)
-	{
-		//Мой код
-		//int a = 1;
-		query = "FROM 'cars'" + query;
-	}
-	string sql = "SELECT * FROM cars";
-
-	int result = mysql_query(pMainFrm->conn, sql.c_str());
-
-	cout << endl << result;
-
-	if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
-	{
-		while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+		if (m_LastTable == ROUTES)
 		{
-			for (int i = 0; i < mysql_num_fields(pMainFrm->res); i++) 
-			{
-				auto a = pMainFrm->row[i];
-				auto b = a;
-				std::cout << pMainFrm->row[i] << "\t"; //Выводим все что есть в базе через цикл
-			}
-			std::cout << "\n";
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
 		}
-	}
-	else
-		fprintf(stderr, "%s\n", mysql_error(pMainFrm->conn));
+		else if (m_LastTable == CARS)
+		{
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
+		}
+		else if (m_LastTable == DRIVERS)
+		{
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
+			pTable->DeleteColumn(0);
+		}
+
+
+		if (item == m_hRoutes)
+		{
+			//Мой код
+			//int a = 1;
+			query = "FROM 'routes'" + query;
+			m_LastTable = ROUTES;
+
+			pTable->InsertColumn(0,L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(2, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(3, L"Пункт назначения", LVCFMT_LEFT, COLUMN_WIDTH);
+
+		}
+
+		else if (item == m_hDrivers)
+		{
+			m_LastTable = DRIVERS;
+			pTable->InsertColumn(0, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			//Мой код
+			//int a = 1;
+			query = "FROM 'drivers'" + query;
+		}
+
+		else if (item == m_hCars)
+		{
+			m_LastTable = CARS;
+			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
+		
+			//Мой код
+			//int a = 1;
+			query = "FROM 'cars'" + query;
+		}
+
+
 
 
 	
 
+
+		//pTable->DeleteColumn(0);
+
+
+
+		string sql = "SELECT * FROM cars";
+
+
+		int result = mysql_query(pMainFrm->conn, sql.c_str());
+
+		cout << endl << result;
+
+		if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+		{
+			while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+			{
+				for (int i = 0; i < mysql_num_fields(pMainFrm->res); i++)
+				{
+					auto a = pMainFrm->row[i];
+					auto b = a;
+					std::cout << pMainFrm->row[i] << "\t"; //Выводим все что есть в базе через цикл
+				}
+				std::cout << "\n";
+			}
+		}
+		else
+			fprintf(stderr, "%s\n", mysql_error(pMainFrm->conn));
+
+
+		
+	}
 
 CTreeView::OnLButtonDown(nFlags, point);
 }

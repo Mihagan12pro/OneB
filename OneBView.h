@@ -8,6 +8,9 @@ class COneBDoc;
 class COneBView : public CListView
 {
 protected: // создать только из сериализации
+
+	CListCtrl* pTable;
+
 	COneBView() noexcept;
 	DECLARE_DYNCREATE(COneBView)
 
@@ -15,6 +18,7 @@ protected: // создать только из сериализации
 public:
 	COneBDoc* GetDocument() const;
 
+	CListCtrl *GetTable();
 // Операции
 public:
 
@@ -41,6 +45,8 @@ protected:
 // Созданные функции схемы сообщений
 protected:
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 
 #ifndef _DEBUG  // версия отладки в OneBView.cpp
