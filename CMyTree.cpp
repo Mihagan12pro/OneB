@@ -39,6 +39,7 @@ BEGIN_MESSAGE_MAP(CTableExplorerView, CTreeView)
 	ON_WM_MOUSEACTIVATE()
 	ON_WM_KEYDOWN()
 	ON_WM_LBUTTONDBLCLK()
+	ON_NOTIFY_REFLECT(TVN_ITEMEXPANDED, &CTableExplorerView::OnTvnItemexpanded)
 END_MESSAGE_MAP()
 
 
@@ -111,6 +112,8 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 {
 	CTreeCtrl& tree = GetTreeCtrl();
 	HTREEITEM item = tree.GetSelectedItem();
+
+	setlocale(LC_ALL, "rus");
 	
 	
 	string sqlSelectQuery = "SELECT * FROM ";
@@ -173,11 +176,23 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		{
 			while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
 			{
-				for (int i = 0; i < mysql_num_fields(pMainFrm->res); i++)
+				CString str;
+
+				char* columnItem0 = pMainFrm->row[0];
+
+				str.Format(L"%c",columnItem0);
+
+				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), str, -1 );
+
+
+				
+				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
 				{
-					auto a = pMainFrm->row[i];
-					auto b = a;
-					std::cout << pMainFrm->row[i] << "\t"; //Выводим все что есть в базе через цикл
+					char* columnItem = pMainFrm->row[i];
+
+					str.Format(L"%c", columnItem);
+
+					pTable -> SetItemText(row,i,str);
 				}
 				std::cout << "\n";
 			}
@@ -219,3 +234,11 @@ CTreeView::OnLButtonDown(nFlags, point);
 //
 //	CTreeView::OnLButtonDblClk(nFlags, point);
 //}
+
+
+void CTableExplorerView::OnTvnItemexpanded(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	LPNMTREEVIEW pNMTreeView = reinterpret_cast<LPNMTREEVIEW>(pNMHDR);
+	// TODO: добавьте свой код обработчика уведомлений
+	*pResult = 0;
+}
