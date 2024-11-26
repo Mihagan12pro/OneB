@@ -32,6 +32,7 @@ protected:
 	virtual void OnBeginPrinting(CDC* pDC, CPrintInfo* pInfo);
 	virtual void OnEndPrinting(CDC* pDC, CPrintInfo* pInfo);
 
+
 // Реализация
 public:
 	virtual ~COneBView();
@@ -47,6 +48,7 @@ protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
 };
 
 #ifndef _DEBUG  // версия отладки в OneBView.cpp

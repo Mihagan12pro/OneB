@@ -3,6 +3,7 @@
 //
 
 #include "pch.h"
+#include<iostream>
 #include "framework.h"
 // SHARED_HANDLERS можно определить в обработчиках фильтров просмотра реализации проекта ATL, эскизов
 // и поиска; позволяет совместно использовать код документа в данным проекте.
@@ -12,7 +13,7 @@
 
 #include "OneBDoc.h"
 #include "OneBView.h"
-
+#include<afxcview.h>
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -28,6 +29,7 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
 	ON_WM_CREATE()
+	ON_NOTIFY_REFLECT(LVN_ENDLABELEDIT, &COneBView::OnLvnEndlabeledit)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -124,7 +126,35 @@ int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 
 	pTable = &GetListCtrl();
-	pTable->ModifyStyle(0, LVS_REPORT);
+	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS| LVS_EDITLABELS);
 
 	return 0;
+}
+
+
+void COneBView::OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
+{
+	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
+
+
+
+	if (pDispInfo->item.pszText != NULL)
+	{
+		
+	
+		
+
+		CString text = CString(pDispInfo->item.pszText);
+		
+
+		int rowIndex = pDispInfo->item.iItem;
+		int coumnIndex = pDispInfo->item.iSubItem;
+		pTable->SetItemText( rowIndex, coumnIndex,text);
+	}
+	else
+	{
+		
+	}
+	// TODO: добавьте свой код обработчика уведомлений
+	*pResult = 0;
 }
