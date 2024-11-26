@@ -178,21 +178,22 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 			{
 				CString str;
 
-				char* columnItem0 = pMainFrm->row[0];
+				CString columnItem0 = CString( pMainFrm->row[0]);
+			
+				//str.Format(L"%s",columnItem0);
 
-				str.Format(L"%c",columnItem0);
-
-				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), str, -1 );
+				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), columnItem0, -1 );
 
 
 				
 				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
 				{
-					char* columnItem = pMainFrm->row[i];
+						CString columnItem = CString(pMainFrm->row[i]);
+						char* ch = pMainFrm->row[i];
+						char* ch2 = ch;
+					//str.Format(L"%s", columnItem);
 
-					str.Format(L"%c", columnItem);
-
-					pTable -> SetItemText(row,i,str);
+					pTable -> SetItemText(row,i,columnItem);
 				}
 				std::cout << "\n";
 			}

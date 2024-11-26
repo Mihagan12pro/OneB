@@ -69,27 +69,27 @@ void CMainFrame::OnOpenMySql()
 	{
 
 	}
-
-	mysql_set_character_set(conn, "cp1251");
+	mysql_set_character_set(conn,"cp1251");
+	//mysql_set_character_set(conn, "utf8mb3");
 	//Смотрим изменилась ли кодировка на нужную, по умалчанию идёт latin1
 
 
 
-	string logon = string();
+	//string logon = string();
 
-	//cout << logon;
+	////cout << logon;
 
-	DWORD sz = 256;
+	//DWORD sz = 256;
 
-	char buff[256];
+	//char buff[256];
 
-	GetComputerNameA(buff, &sz);
+	//GetComputerNameA(buff, &sz);
 
-	string compname(buff);
-	sz = 256;
+	//string compname(buff);
+	//sz = 256;
 
-	GetUserNameA(buff, &sz);
-	string user(buff);
+	//GetUserNameA(buff, &sz);
+	//string user(buff);
 
 }
 
@@ -171,7 +171,7 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	// TODO: добавьте специализированный код или вызов базового класса
 	m_wndSplitter.CreateStatic(this,1,2);
 
-	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CTableExplorerView), CSize(400, 0), pContext);
+	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CTableExplorerView), CSize(200, 0), pContext);
 	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(COneBView), CSize(0, 0), pContext);
 
 	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
