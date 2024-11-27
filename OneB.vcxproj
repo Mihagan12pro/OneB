@@ -187,6 +187,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="CCarRowEditorDlg.h" />
     <ClInclude Include="CMyTree.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
@@ -199,6 +200,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="CCarRowEditorDlg.cpp" />
     <ClCompile Include="CMyTree.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OneB.cpp" />

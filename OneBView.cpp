@@ -15,6 +15,9 @@
 #include "OneBView.h"
 #include<afxcview.h>
 #include"tables.h"
+#include"CCarRowEditorDlg.h"
+#include<string>
+using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -136,46 +139,6 @@ int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 }
 
 
-//void COneBView::OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
-//{
-//	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-//
-//
-//
-//	if (pDispInfo->item.pszText != NULL)
-//	{
-//		CString text = CString(pDispInfo->item.pszText);
-//		
-//		int rowIndex = pDispInfo->item.iItem;
-//		int coumnIndex = pDispInfo->item.iSubItem;
-//		pTable -> SetItemText( rowIndex, coumnIndex,text);
-//	}
-//	else
-//	{
-//		
-//	}
-	// TODO: добавьте свой код обработчика уведомлений
-//	*pResult = 0;
-//}
-
-
-//void COneBView::OnLButtonDown(UINT nFlags, CPoint point)
-//{
-	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
-
-//	CListView::OnLButtonDown(nFlags, point);
-//}
-
-
-//void COneBView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
-//{
-//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
-	// TODO: добавьте свой код обработчика уведомлений
-
-
-
-//	*pResult = 0;
-//}
 
 
 void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
@@ -198,7 +161,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 		
 
-		
+		m_selectedCellIndex = info.iItem;
 
 		
 		switch (m_pTreeView->GetSelectedItem())
@@ -206,7 +169,13 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			case drivers_tbl:
 				break;
 			case cars_tbl:
+			{
+				CCarRowEditorDlg dlg;
+				dlg.GetVars(pTable->GetItemText(info.iItem, 0), pTable->GetItemText(info.iItem, 1));
+				dlg.DoModal();
 				break;
+			}
+				
 			case routes_tbl:
 				break;
 		}

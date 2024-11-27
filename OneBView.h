@@ -6,12 +6,13 @@
 
 class COneBDoc;
 class CTableExplorerView;
+class CCarRowEditorDlg;
 class COneBView : public CListView
 {
 protected: // создать только из сериализации
 	enum table{drivers_tbl = 0, cars_tbl=1,routes_tbl=2};
 	CListCtrl* pTable;
-
+	int m_selectedCellIndex;
 	COneBView() noexcept;
 	DECLARE_DYNCREATE(COneBView)
 
@@ -45,7 +46,7 @@ public:
 
 protected:
 	CTableExplorerView* m_pTreeView;
-	
+	friend class CCarRowEditorDlg;
 // Созданные функции схемы сообщений
 protected:
 	DECLARE_MESSAGE_MAP()
