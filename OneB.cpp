@@ -160,6 +160,7 @@ protected:
 // Реализация
 protected:
 	DECLARE_MESSAGE_MAP()
+	virtual void OnOK();
 };
 
 CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
@@ -185,3 +186,11 @@ void COneBApp::OnAppAbout()
 
 
 
+
+
+void CAboutDlg::OnOK()
+{
+	// TODO: добавьте специализированный код или вызов базового класса
+
+	CDialogEx::OnOK();
+}

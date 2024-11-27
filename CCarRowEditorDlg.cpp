@@ -35,6 +35,7 @@ void CCarRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CCarRowEditorDlg, CDialogEx)
 	ON_WM_CREATE()
+	ON_BN_CLICKED(IDOK, &CCarRowEditorDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
@@ -51,7 +52,7 @@ int CCarRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	pView = (COneBView*)AfxGetMainWnd();
 
 	
-
+	
 	// TODO:  Добавьте специализированный код создания
 
 	return 0;
@@ -59,5 +60,57 @@ int CCarRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 void CCarRowEditorDlg::GetVars(CString carNumber, CString carBrand)
 {
 	 m_carNumber = carNumber;
-	 m_carBrand = carBrand;
+	 m_oldCarBrand = m_carBrand = carBrand;
+}
+
+void CCarRowEditorDlg::OnBnClickedOk()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+	
+	
+
+	CDialogEx::OnOK();
+	if (m_carBrand != m_oldCarBrand)
+	{
+		std::string newBrand = CT2A(m_carBrand);
+		std::string car_id = CT2A(m_carNumber);
+		std::string query = "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
+		int result = mysql_query(pFrame->conn, query.c_str());
+
+		if (pFrame->res = mysql_store_result(pFrame->conn))
+		{
+		}
+	}
+}
+/*
+	if (m_carBrand != m_oldCarBrand)
+	{
+		std::string newBrand = CT2A(m_carBrand);
+		std::string car_id = CT2A(m_carNumber);
+		std::string query = "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
+		int result = mysql_query(pFrame->conn, query.c_str());
+
+		if (pFrame->res = mysql_store_result(pFrame->conn))
+		{
+		}
+	}
+
+
+*/
+
+void CCarRowEditorDlg::OnOK()
+{
+	// TODO: добавьте специализированный код или вызов базового класса
+	if (m_carBrand != m_oldCarBrand)
+	{
+		std::string newBrand = CT2A(m_carBrand);
+		std::string car_id = CT2A(m_carNumber);
+		std::string query = "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
+		int result = mysql_query(pFrame->conn, query.c_str());
+
+		if (pFrame->res = mysql_store_result(pFrame->conn))
+		{
+		}
+	}
+	CDialogEx::OnOK();
 }

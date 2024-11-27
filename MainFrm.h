@@ -5,7 +5,7 @@
 #pragma once
 class COneBView;
 class ConeBDoc;
-
+class CCarRowEditorDlg;
 #include "mysql.h"
 #include <locale>
 #include <string>
@@ -42,6 +42,7 @@ protected:  // встроенные члены панели элементов �
 
 // Созданные функции схемы сообщений
 protected:
+	friend class CCarRowEditorDlg;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 

@@ -8,7 +8,6 @@
 #define IDR_OneBTYPE                    130
 #define IDD_CarRowEditor                310
 #define IDC_CarNumberEDIT               1000
-#define IDC_EDIT                        1001
 #define IDC_CarBrandEDIT                1001
 #define IDC_CarNumberSTATIC             1002
 
