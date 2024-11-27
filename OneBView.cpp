@@ -10,10 +10,11 @@
 #ifndef SHARED_HANDLERS
 #include "OneB.h"
 #endif
-
+#include"CMyTree.h"
 #include "OneBDoc.h"
 #include "OneBView.h"
 #include<afxcview.h>
+#include"tables.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -29,7 +30,10 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	ON_COMMAND(ID_FILE_PRINT_DIRECT, &CListView::OnFilePrint)
 	ON_COMMAND(ID_FILE_PRINT_PREVIEW, &CListView::OnFilePrintPreview)
 	ON_WM_CREATE()
-	ON_NOTIFY_REFLECT(LVN_ENDLABELEDIT, &COneBView::OnLvnEndlabeledit)
+	//ON_NOTIFY_REFLECT(LVN_ENDLABELEDIT, &COneBView::OnLvnEndlabeledit)
+	ON_WM_LBUTTONDOWN()
+	//ON_NOTIFY_REFLECT(NM_CLICK, &COneBView::OnNMClick)
+	ON_WM_LBUTTONDBLCLK()
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -126,35 +130,92 @@ int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 
 	pTable = &GetListCtrl();
-	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS| LVS_EDITLABELS);
+	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS);
 
 	return 0;
 }
 
 
-void COneBView::OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
-{
-	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
-
-
-
-	if (pDispInfo->item.pszText != NULL)
-	{
-		
-	
-		
-
-		CString text = CString(pDispInfo->item.pszText);
-		
-
-		int rowIndex = pDispInfo->item.iItem;
-		int coumnIndex = pDispInfo->item.iSubItem;
-		pTable->SetItemText( rowIndex, coumnIndex,text);
-	}
-	else
-	{
-		
-	}
+//void COneBView::OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult)
+//{
+//	NMLVDISPINFO* pDispInfo = reinterpret_cast<NMLVDISPINFO*>(pNMHDR);
+//
+//
+//
+//	if (pDispInfo->item.pszText != NULL)
+//	{
+//		CString text = CString(pDispInfo->item.pszText);
+//		
+//		int rowIndex = pDispInfo->item.iItem;
+//		int coumnIndex = pDispInfo->item.iSubItem;
+//		pTable -> SetItemText( rowIndex, coumnIndex,text);
+//	}
+//	else
+//	{
+//		
+//	}
 	// TODO: добавьте свой код обработчика уведомлений
-	*pResult = 0;
+//	*pResult = 0;
+//}
+
+
+//void COneBView::OnLButtonDown(UINT nFlags, CPoint point)
+//{
+	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
+
+//	CListView::OnLButtonDown(nFlags, point);
+//}
+
+
+//void COneBView::OnNMClick(NMHDR* pNMHDR, LRESULT* pResult)
+//{
+//	LPNMITEMACTIVATE pNMItemActivate = reinterpret_cast<LPNMITEMACTIVATE>(pNMHDR);
+	// TODO: добавьте свой код обработчика уведомлений
+
+
+
+//	*pResult = 0;
+//}
+
+
+void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
+{
+	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
+
+	CListView::OnLButtonDblClk(nFlags, point);
+
+	LVHITTESTINFO info;
+	info.pt = point;
+	info.flags = LVHT_ONITEMLABEL;
+
+	if (pTable->SubItemHitTest(&info) >= 0)
+	{
+		int row = info.iItem;
+		int column = info.iSubItem;
+
+		CRect rect;
+		pTable->GetSubItemRect(row,column,LVIR_LABEL,rect);
+
+		
+
+		
+
+		
+		switch (m_pTreeView->GetSelectedItem())
+		{
+			case drivers_tbl:
+				break;
+			case cars_tbl:
+				break;
+			case routes_tbl:
+				break;
+		}
+			
+
+	}
+
+}
+void  COneBView::SetTreeView(CTableExplorerView* pTree)
+{
+	m_pTreeView = pTree;
 }

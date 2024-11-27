@@ -15,7 +15,7 @@
 #define ROUTES 2
 
 #define COLUMN_WIDTH 240
-
+#include"tables.h"
 using namespace std;
 // CMyTree
 
@@ -132,7 +132,6 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		{
 			pTable->DeleteColumn(0);
 		}
-
 		if (item == m_hRoutes)
 		{
 			sqlSelectQuery += "routes";
@@ -176,31 +175,21 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		{
 			while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
 			{
-				CString str;
-
-				CString columnItem0 = CString( pMainFrm->row[0]);
+	
 			
-				//str.Format(L"%s",columnItem0);
-
-				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), columnItem0, -1 );
+	
+				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
 
 
 				
 				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
 				{
 						CString columnItem = CString(pMainFrm->row[i]);
-						char* ch = pMainFrm->row[i];
-						char* ch2 = ch;
-					//str.Format(L"%s", columnItem);
-
-					pTable -> SetItemText(row,i,columnItem);
+						pTable -> SetItemText(row,i,columnItem);
 				}
-				std::cout << "\n";
+				
 			}
 		}
-		else
-			fprintf(stderr, "%s\n", mysql_error(pMainFrm->conn));
-
 
 		
 	}
@@ -235,7 +224,19 @@ CTreeView::OnLButtonDown(nFlags, point);
 //
 //	CTreeView::OnLButtonDblClk(nFlags, point);
 //}
+int CTableExplorerView::GetSelectedItem()
+{
+	CTreeCtrl& tree = GetTreeCtrl();
 
+	if (tree.GetSelectedItem() == m_hDrivers)
+		return drivers_tbl;
+
+	else if (tree.GetSelectedItem() == m_hCars)
+		return cars_tbl;
+
+	else
+		return routes_tbl;
+}
 
 void CTableExplorerView::OnTvnItemexpanded(NMHDR* pNMHDR, LRESULT* pResult)
 {

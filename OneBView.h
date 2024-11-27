@@ -5,10 +5,11 @@
 #pragma once
 
 class COneBDoc;
+class CTableExplorerView;
 class COneBView : public CListView
 {
 protected: // создать только из сериализации
-
+	enum table{drivers_tbl = 0, cars_tbl=1,routes_tbl=2};
 	CListCtrl* pTable;
 
 	COneBView() noexcept;
@@ -35,6 +36,7 @@ protected:
 
 // Реализация
 public:
+	void SetTreeView(CTableExplorerView* pTree);
 	virtual ~COneBView();
 #ifdef _DEBUG
 	virtual void AssertValid() const;
@@ -42,13 +44,17 @@ public:
 #endif
 
 protected:
-
+	CTableExplorerView* m_pTreeView;
+	
 // Созданные функции схемы сообщений
 protected:
 	DECLARE_MESSAGE_MAP()
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
-	afx_msg void OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
+//	afx_msg void OnLvnEndlabeledit(NMHDR* pNMHDR, LRESULT* pResult);
+//	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
+//	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
+	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 };
 
 #ifndef _DEBUG  // версия отладки в OneBView.cpp

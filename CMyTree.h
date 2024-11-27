@@ -46,6 +46,9 @@ private:
 	friend class CMainFrame;
 	friend class COneBDoc;
 public:
+
+	int GetSelectedItem();
+
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 
 //	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
