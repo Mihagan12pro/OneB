@@ -182,7 +182,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			case routes_tbl:
 				break;
 		}
-			
+		Invalidate();
 
 	}
 
@@ -252,5 +252,14 @@ void COneBView::FillTable(int tableType)
 }
 void COneBView::ClearTable()
 {
+	pTable->DeleteAllItems();
 
+	CHeaderCtrl* pTableHeaders = pTable->GetHeaderCtrl();
+
+	int fieldsCount = pTableHeaders->GetItemCount();
+
+	for (int i = 0; i < fieldsCount;i++)
+	{
+		pTable->DeleteColumn(0);
+	}
 }

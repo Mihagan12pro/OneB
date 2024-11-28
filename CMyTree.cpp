@@ -120,18 +120,7 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 	
 	if (item != m_hTablesList)
 	{
-		CListCtrl *pTable = m_pMainView -> GetTable();
-
-		pTable->DeleteAllItems();
-
-		CHeaderCtrl *pTableHeaders = pTable->GetHeaderCtrl();
-
-		int fieldsCount = pTableHeaders->GetItemCount();
-
-		for (int i = 0; i < fieldsCount;i++)
-		{
-			pTable->DeleteColumn(0);
-		}
+		m_pMainView->ClearTable();
 		if (item == m_hRoutes)
 		{
 			m_pMainView->FillTable(routes_tbl);
@@ -201,7 +190,6 @@ int CTableExplorerView::GetSelectedItem()
 
 	else if (tree.GetSelectedItem() == m_hCars)
 		return cars_tbl;
-
 	else
 		return routes_tbl;
 }

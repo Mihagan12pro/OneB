@@ -8,7 +8,7 @@
 #include"MainFrm.h"
 #include"OneBView.h"
 #include"afxlistctrl.h"
-
+#include"tables.h"
 // Диалоговое окно CCarRowEditorDlg
 
 IMPLEMENT_DYNAMIC(CCarRowEditorDlg, CDialogEx)
@@ -79,8 +79,12 @@ void CCarRowEditorDlg::OnBnClickedOk()
 
 		if (pFrame->res = mysql_store_result(pFrame->conn))
 		{
-			std::string selectQuery = "SELECT * FROM cars";
+			pView -> ClearTable();
+			pView -> FillTable(cars_tbl);
+	
 		}
+
+		
 	}
 }
 /*
