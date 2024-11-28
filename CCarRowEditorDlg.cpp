@@ -79,6 +79,7 @@ void CCarRowEditorDlg::OnBnClickedOk()
 
 		if (pFrame->res = mysql_store_result(pFrame->conn))
 		{
+			std::string selectQuery = "SELECT * FROM cars";
 		}
 	}
 }

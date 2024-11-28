@@ -43,6 +43,7 @@ protected:  // встроенные члены панели элементов �
 // Созданные функции схемы сообщений
 protected:
 	friend class CCarRowEditorDlg;
+	friend class COneBView;
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 	DECLARE_MESSAGE_MAP()
 

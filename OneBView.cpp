@@ -14,9 +14,12 @@
 #include "OneBDoc.h"
 #include "OneBView.h"
 #include<afxcview.h>
+#include"MainFrm.h"
 #include"tables.h"
 #include"CCarRowEditorDlg.h"
 #include<string>
+#include"tables.h"
+#define COLUMN_WIDTH 150
 using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
@@ -187,4 +190,67 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 void  COneBView::SetTreeView(CTableExplorerView* pTree)
 {
 	m_pTreeView = pTree;
+}
+void COneBView::FillTable(int tableType)
+{
+	std::string sqlSelectQuery = "SELECT * FROM ";
+	switch (tableType)
+	{
+		case drivers_tbl:
+		{
+			pTable->InsertColumn(0, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			sqlSelectQuery += "drivers";
+			break;
+		}
+		case cars_tbl:
+		{
+			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			sqlSelectQuery += "cars";
+			break;
+		}
+		case routes_tbl:
+		{
+			sqlSelectQuery += "routes";
+			pTable->InsertColumn(0, L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(2, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(3, L"Пункт назначения", LVCFMT_LEFT, COLUMN_WIDTH);
+			break;
+		}
+		default:
+		{
+			throw exception("Undefined table!");
+			break;
+		}
+	}
+
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+	
+	int result = mysql_query(pMainFrm->conn, sqlSelectQuery.c_str());
+	if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+	{
+		while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+		{
+
+
+
+			int row = pTable->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
+
+
+
+			for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
+			{
+				CString columnItem = CString(pMainFrm->row[i]);
+				pTable->SetItemText(row, i, columnItem);
+			}
+
+		}
+	}
+}
+void COneBView::ClearTable()
+{
+
 }

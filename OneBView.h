@@ -23,7 +23,8 @@ public:
 	CListCtrl *GetTable();
 // Операции
 public:
-
+	void FillTable(int tableType);
+	void ClearTable();
 // Переопределение
 public:
 	virtual void OnDraw(CDC* pDC);  // переопределено для отрисовки этого представления

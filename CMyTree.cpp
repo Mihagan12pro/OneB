@@ -134,26 +134,15 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		}
 		if (item == m_hRoutes)
 		{
-			sqlSelectQuery += "routes";
-			pTable->InsertColumn(0,L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(2, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(3, L"Пункт назначения", LVCFMT_LEFT, COLUMN_WIDTH);
+			m_pMainView->FillTable(routes_tbl);
 		}
-
 		else if (item == m_hDrivers)
 		{
-			pTable->InsertColumn(0, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += "drivers";
+			m_pMainView->FillTable(drivers_tbl);
 		}
-
 		else if (item == m_hCars)
 		{
-			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += "cars";
+			m_pMainView->FillTable(cars_tbl);
 		}
 
 
@@ -163,33 +152,12 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 
 		
 		
-
+		
 		
 
 
-		int result = mysql_query(pMainFrm->conn, sqlSelectQuery.c_str());
 
-		cout << endl << result;
-
-		if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
-		{
-			while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
-			{
-	
-			
-	
-				int row = pTable ->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
-
-
-				
-				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
-				{
-						CString columnItem = CString(pMainFrm->row[i]);
-						pTable -> SetItemText(row,i,columnItem);
-				}
-				
-			}
-		}
+		
 
 		
 	}
