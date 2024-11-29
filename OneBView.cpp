@@ -19,13 +19,17 @@
 #include"CCarRowEditorDlg.h"
 #include<string>
 #include"tables.h"
+#include<vector>
 #define COLUMN_WIDTH 150
 using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 
-
+struct routesField
+{
+	CString driver_id, car_id;
+};
 // COneBView
 
 IMPLEMENT_DYNCREATE(COneBView, CListView)
@@ -173,7 +177,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 				break;
 			case cars_tbl:
 			{
-				CCarRowEditorDlg dlg;
+				CRowEditorDlg dlg;
 				dlg.GetVars(pTable->GetItemText(info.iItem, 0), pTable->GetItemText(info.iItem, 1));
 				dlg.DoModal();
 				break;
@@ -193,31 +197,33 @@ void  COneBView::SetTreeView(CTableExplorerView* pTree)
 }
 void COneBView::FillTable(int tableType)
 {
-	std::string sqlSelectQuery = "SELECT * FROM ";
+	std::string sqlSelectQuery = "SELECT ";
 	switch (tableType)
 	{
 		case drivers_tbl:
 		{
-			pTable->InsertColumn(0, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += "drivers";
+			sqlSelectQuery += " driver_name,driver_surname  FROM drivers";
 			break;
 		}
 		case cars_tbl:
 		{
 			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += "cars";
+			sqlSelectQuery += " car_number, car_brand FROM cars";
 			break;
 		}
 		case routes_tbl:
 		{
-			sqlSelectQuery += "routes";
+			sqlSelectQuery += "* FROM routes";
 			pTable->InsertColumn(0, L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Табельный номер водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(2, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(3, L"Пункт назначения", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(1, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(2, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(3, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(4, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+			pTable->InsertColumn(5, L"Место отправления", LVCFMT_LEFT, COLUMN_WIDTH);
+
 			break;
 		}
 		default:
@@ -230,24 +236,105 @@ void COneBView::FillTable(int tableType)
 	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
 	
 	int result = mysql_query(pMainFrm->conn, sqlSelectQuery.c_str());
+
+	vector<routesField>routesFieldVector;
+	vector<int>rowIds;
 	if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 	{
+	
 		while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
 		{
 
-
-
-			int row = pTable->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
-
-
-
-			for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
+			if (tableType != routes_tbl)
 			{
-				CString columnItem = CString(pMainFrm->row[i]);
-				pTable->SetItemText(row, i, columnItem);
-			}
+				int rowId = pTable->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
+				rowIds.push_back(rowId);
 
+				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
+				{
+				
+					CString columnItem = CString(pMainFrm->row[i]);
+					pTable->SetItemText(rowId, i, columnItem);
+				}
+			}
+			else
+			{
+				int rowId = pTable->InsertItem(mysql_num_fields(pMainFrm->res), CString(pMainFrm->row[0]), -1);
+
+				routesField field;
+				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
+				{
+					switch (i)
+					{
+						case 1:
+						{
+							field.driver_id = CString(pMainFrm->row[i]);
+							break;
+						}
+						case 2:
+						{
+							field.car_id = CString(pMainFrm->row[i]);
+							break;
+						}
+						case 3:
+						{
+							CString columnItem = CString(pMainFrm->row[i]);
+							pTable->SetItemText(rowId, 5, columnItem);
+							break;
+						}
+						
+					}
+					
+				}
+				routesFieldVector.push_back(field);
+			}
 		}
+		
+	}
+	if (tableType == routes_tbl)
+	{
+
+		/*for (int i = 0; i < pTable->GetItemCount();i++)
+		{
+
+		}*/
+		int n = -1;
+		for (int i = 0; i < routesFieldVector.size();i++)
+		{
+			string str = CT2A(routesFieldVector[i].driver_id);
+			string sqlSelectQuery2 = string("SELECT * FROM drivers WHERE driver_id = "+str);
+
+
+			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
+			
+
+			
+
+			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+			{
+				n++;
+				while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+				{
+
+					pTable->SetItemText(n,1, CString(pMainFrm->row[1]));
+
+					pTable->SetItemText(n, 2, CString(pMainFrm->row[2]));
+					pTable->SetItemText(n, 3, CString(pMainFrm->row[3]));
+
+				}
+			}
+		}
+		
+			
+
+
+		
+
+		
+		
+	
+		
+		
 	}
 }
 void COneBView::ClearTable()

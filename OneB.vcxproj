@@ -200,7 +200,7 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CCarRowEditorDlg.cpp" />
+    <ClCompile Include="CRowEditorDlg.cpp" />
     <ClCompile Include="CMyTree.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OneB.cpp" />

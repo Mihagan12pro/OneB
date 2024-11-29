@@ -11,9 +11,10 @@
 #include"tables.h"
 // Диалоговое окно CCarRowEditorDlg
 
-IMPLEMENT_DYNAMIC(CCarRowEditorDlg, CDialogEx)
+IMPLEMENT_DYNAMIC(CRowEditorDlg
+	, CDialogEx)
 
-CCarRowEditorDlg::CCarRowEditorDlg(CWnd* pParent /*=nullptr*/)
+CRowEditorDlg::CRowEditorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_CarRowEditor, pParent)
 	, m_carNumber(_T(""))
 	, m_carBrand(_T(""))
@@ -21,11 +22,11 @@ CCarRowEditorDlg::CCarRowEditorDlg(CWnd* pParent /*=nullptr*/)
 
 }
 
-CCarRowEditorDlg::~CCarRowEditorDlg()
+CRowEditorDlg::~CRowEditorDlg()
 {
 }
 
-void CCarRowEditorDlg::DoDataExchange(CDataExchange* pDX)
+void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 {
 	CDialogEx::DoDataExchange(pDX);
 	DDX_Text(pDX, IDC_CarNumberEDIT, m_carNumber);
@@ -33,16 +34,16 @@ void CCarRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 
-BEGIN_MESSAGE_MAP(CCarRowEditorDlg, CDialogEx)
+BEGIN_MESSAGE_MAP(CRowEditorDlg, CDialogEx)
 	ON_WM_CREATE()
-	ON_BN_CLICKED(IDOK, &CCarRowEditorDlg::OnBnClickedOk)
+	ON_BN_CLICKED(IDOK, &CRowEditorDlg::OnBnClickedOk)
 END_MESSAGE_MAP()
 
 
 // Обработчики сообщений CCarRowEditorDlg
 
 
-int CCarRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+int CRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
 	
 	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
@@ -57,13 +58,13 @@ int CCarRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 	return 0;
 }
-void CCarRowEditorDlg::GetVars(CString carNumber, CString carBrand)
+void CRowEditorDlg::GetVars(CString carNumber, CString carBrand)
 {
 	 m_carNumber = carNumber;
 	 m_oldCarBrand = m_carBrand = carBrand;
 }
 
-void CCarRowEditorDlg::OnBnClickedOk()
+void CRowEditorDlg::OnBnClickedOk()
 {
 	// TODO: добавьте свой код обработчика уведомлений
 	
@@ -83,27 +84,12 @@ void CCarRowEditorDlg::OnBnClickedOk()
 			pView -> FillTable(cars_tbl);
 	
 		}
-
-		
 	}
 }
-/*
-	if (m_carBrand != m_oldCarBrand)
-	{
-		std::string newBrand = CT2A(m_carBrand);
-		std::string car_id = CT2A(m_carNumber);
-		std::string query = "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
-		int result = mysql_query(pFrame->conn, query.c_str());
-
-		if (pFrame->res = mysql_store_result(pFrame->conn))
-		{
-		}
-	}
 
 
-*/
 
-void CCarRowEditorDlg::OnOK()
+void CRowEditorDlg::OnOK()
 {
 	// TODO: добавьте специализированный код или вызов базового класса
 	if (m_carBrand != m_oldCarBrand)

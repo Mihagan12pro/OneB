@@ -6,7 +6,7 @@
 
 class COneBDoc;
 class CTableExplorerView;
-class CCarRowEditorDlg;
+class CRowEditorDlg;
 class COneBView : public CListView
 {
 protected: // создать только из сериализации
@@ -47,7 +47,7 @@ public:
 
 protected:
 	CTableExplorerView* m_pTreeView;
-	friend class CCarRowEditorDlg;
+	friend class CRowEditorDlg;
 // Созданные функции схемы сообщений
 protected:
 	DECLARE_MESSAGE_MAP()

@@ -6,13 +6,13 @@
 class CMainFrame;
 class COneBView;
 
-class CCarRowEditorDlg : public CDialogEx
+class CRowEditorDlg : public CDialogEx
 {
-	DECLARE_DYNAMIC(CCarRowEditorDlg)
+	DECLARE_DYNAMIC(CRowEditorDlg)
 
 public:
-	CCarRowEditorDlg(CWnd* pParent = nullptr);   // стандартный конструктор
-	virtual ~CCarRowEditorDlg();
+	CRowEditorDlg(CWnd* pParent = nullptr);   // стандартный конструктор
+	virtual ~CRowEditorDlg();
 
 // Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
