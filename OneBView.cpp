@@ -301,49 +301,32 @@ void COneBView::FillTable(int tableType)
 			string sqlSelectQuery2 = string("SELECT * FROM drivers WHERE driver_id = "+str);
 
 			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
-
+			n++;
 			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 			{
-				n++;
-				while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
-				{
-
+				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+				
+				
 					pTable->SetItemText(n,1, CString(pMainFrm->row[1]));
 
 					pTable->SetItemText(n, 2, CString(pMainFrm->row[2]));
 					pTable->SetItemText(n, 3, CString(pMainFrm->row[3]));
 
-				}
+				
 			}
-		}
-		n = -1;
-		for (int i = 0; i < routesFieldVector.size();i++)
-		{
-			string str = CT2A(routesFieldVector[i].car_id);
-			string sqlSelectQuery2 = string("SELECT * FROM cars WHERE car_id = " + str);
+			str = CT2A(routesFieldVector[i].car_id);
+			sqlSelectQuery2 = string("SELECT * FROM cars WHERE car_id = " + str);
 
 			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
 
 			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 			{
-				n++;
-				while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
-				{
-					pTable->SetItemText(n, 4, CString(pMainFrm->row[1]));
-				}
-			}
-		}
-		
+				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 			
-
-
-		
-
-		
-		
-	
-		
-		
+				pTable->SetItemText(n, 4, CString(pMainFrm->row[2]));
+				
+			}
+		}	
 	}
 }
 void COneBView::ClearTable()
