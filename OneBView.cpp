@@ -140,7 +140,7 @@ int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 
 	pTable = &GetListCtrl();
-	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS);
+	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS );
 
 	return 0;
 }
@@ -293,22 +293,14 @@ void COneBView::FillTable(int tableType)
 	}
 	if (tableType == routes_tbl)
 	{
-
-		/*for (int i = 0; i < pTable->GetItemCount();i++)
-		{
-
-		}*/
+	
 		int n = -1;
 		for (int i = 0; i < routesFieldVector.size();i++)
 		{
 			string str = CT2A(routesFieldVector[i].driver_id);
 			string sqlSelectQuery2 = string("SELECT * FROM drivers WHERE driver_id = "+str);
 
-
 			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
-			
-
-			
 
 			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 			{
@@ -321,6 +313,23 @@ void COneBView::FillTable(int tableType)
 					pTable->SetItemText(n, 2, CString(pMainFrm->row[2]));
 					pTable->SetItemText(n, 3, CString(pMainFrm->row[3]));
 
+				}
+			}
+		}
+		n = -1;
+		for (int i = 0; i < routesFieldVector.size();i++)
+		{
+			string str = CT2A(routesFieldVector[i].car_id);
+			string sqlSelectQuery2 = string("SELECT * FROM cars WHERE car_id = " + str);
+
+			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
+
+			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+			{
+				n++;
+				while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
+				{
+					pTable->SetItemText(n, 4, CString(pMainFrm->row[1]));
 				}
 			}
 		}
