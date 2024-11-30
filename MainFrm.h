@@ -10,6 +10,7 @@ class CRowEditorDlg;
 #include <locale>
 #include <string>
 #include <lm.h>
+#include"tables.h"
 class CMainFrame : public CFrameWnd
 {
 	
@@ -59,6 +60,8 @@ private:
 	MYSQL_RES* res, * reslogon, * reslogoff;
 	MYSQL_ROW row;
 
+
+	
 
 	
 	

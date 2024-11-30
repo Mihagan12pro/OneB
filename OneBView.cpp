@@ -16,7 +16,7 @@
 #include<afxcview.h>
 #include"MainFrm.h"
 #include"tables.h"
-#include"CCarRowEditorDlg.h"
+#include"CRowEditorDlg.h"
 #include<string>
 #include"tables.h"
 #include<vector>
@@ -140,7 +140,7 @@ int COneBView::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 
 	pTable = &GetListCtrl();
-	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS );
+	pTable->ModifyStyle(0, LVS_REPORT | LVS_SORTASCENDING | LVS_SHOWSELALWAYS);
 
 	return 0;
 }
@@ -170,7 +170,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 		m_selectedCellIndex = info.iItem;
 
-		
+		CString primalKey;
 		switch (m_pTreeView->GetSelectedItem())
 		{
 			case drivers_tbl:
@@ -178,12 +178,31 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			case cars_tbl:
 			{
 				CRowEditorDlg dlg;
-				dlg.GetVars(pTable->GetItemText(info.iItem, 0), pTable->GetItemText(info.iItem, 1));
-				dlg.DoModal();
+
+				CString number, brand;
+
+				number = pTable->GetItemText(info.iItem, 0);
+				brand = pTable->GetItemText(info.iItem, 1);
+
+				primalKey = GetPrimalKey(cars_tbl,row);
+			
+
+				dlg.GetCars(number,brand);
+				if (dlg.DoModal() == IDOK)
+				{
+					if (number != dlg.GetCarNumber())
+					{
+						CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+						
+					}
+				}
 				break;
 			}
 				
 			case routes_tbl:
+				primalKey = GetPrimalKey(routes_tbl, row);
+				auto a = primalKey;
 				break;
 		}
 		Invalidate();
@@ -341,4 +360,54 @@ void COneBView::ClearTable()
 	{
 		pTable->DeleteColumn(0);
 	}
+}
+CString COneBView::GetPrimalKey(table tableType, int cellId)
+{
+	
+
+	switch (tableType)
+	{
+		case routes_tbl:
+		{
+			return pTable->GetItemText(cellId,0);
+		}
+		case cars_tbl:
+		{
+			CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+
+			string carNumber = CT2A(pTable->GetItemText(cellId, 0));
+			string carBrand = CT2A(pTable->GetItemText(cellId, 1));
+			//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
+			string query = string("SELECT * FROM cars WHERE car_number = '"+carNumber+"' AND car_brand = '"+carBrand+"'");
+			int ex = mysql_query(pMainFrm->conn, query.c_str());
+
+			pMainFrm->res = mysql_store_result(pMainFrm->conn);
+			
+				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+
+				
+				return CString(pMainFrm->row[0]);
+				
+		
+		}
+		case drivers_tbl:
+		{
+			/*string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
+			string driverName = CT2A(pTable->GetItemText(cellId, 1));
+			string driverPatronymic = CT2A(pTable->GetItemText(cellId, 2));
+			string query = "FROM cars SELECT car_id WHERE driver_surname = " + driverSurname + " AND driver_name = " + driverName+" AND driver_patronymic = "+driverPatronymic;
+
+			mysql_query(pMainFrm->conn, query.c_str());
+
+			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
+			{
+				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+
+				return CString(pMainFrm->row[0]);
+
+			}*/
+			break;
+		}
+	}
+	return L"";
 }

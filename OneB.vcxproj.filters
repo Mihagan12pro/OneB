@@ -48,7 +48,7 @@
     <ClInclude Include="tables.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
-    <ClInclude Include="CCarRowEditorDlg.h">
+    <ClInclude Include="CRowEditorDlg.h">
       <Filter>Файлы заголовков</Filter>
     </ClInclude>
   </ItemGroup>

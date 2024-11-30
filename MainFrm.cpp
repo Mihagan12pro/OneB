@@ -200,3 +200,4 @@ void CMainFrame::OnClose()
 	mysql_close(conn);
 	CFrameWnd::OnClose();
 }
+

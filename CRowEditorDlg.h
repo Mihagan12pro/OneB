@@ -22,15 +22,28 @@ public:
 protected:
 	COneBView* pView;
 	CMainFrame * pFrame;
-	CString m_carNumber, m_carBrand,m_oldCarBrand;
+
+	bool varsInitialized = false;
+
 
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 
 	DECLARE_MESSAGE_MAP()
 public:
-	void GetVars(CString carNumber,CString carBrand);
+	void GetCars(CString carNumber,CString carBrand);
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 
 	afx_msg void OnBnClickedOk();
 	virtual void OnOK();
+
+
+
+private://cars
+	CString m_carNumber, m_carBrand;
+public:
+	CString GetCarNumber(),GetCarBrand();
+private://drivers
+	//CString m_driverSurname, m_driverName, m_driverPatronymic;
+private://routes
+	//CString m_arrival, m_driversFullName;
 };

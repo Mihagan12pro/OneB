@@ -187,7 +187,7 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CCarRowEditorDlg.h" />
+    <ClInclude Include="CRowEditorDlg.h" />
     <ClInclude Include="CMyTree.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
