@@ -17,7 +17,6 @@
 #include"MainFrm.h"
 #include"tables.h"
 #include<string>
-#include"tables.h"
 #include<vector>
 #include"CRowEditorDlg.h"
 #define COLUMN_WIDTH 150
@@ -25,7 +24,7 @@ using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
-
+using namespace enums;
 struct routesField
 {
 	CString driver_id, car_id;
@@ -158,6 +157,9 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 	info.pt = point;
 	info.flags = LVHT_ONITEMLABEL;
 
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
 	if (pTable->SubItemHitTest(&info) >= 0)
 	{
 		int row = info.iItem;
@@ -171,18 +173,45 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		m_selectedCellIndex = info.iItem;
 
 		CString primalKey;
-		
+		CRowEditorDlg dlg;
 		switch (m_pTreeView->GetSelectedItem())
 		{
 			case drivers_tbl:
-				break;
-			case cars_tbl:
 			{
-				CRowEditorDlg dlg;
+				CString primaryKey = GetPrimalKey(drivers_tbl, row);
+				dlg.InitializingEditor(enums::drivers_tbl);
 
 				if (dlg.DoModal() == IDOK)
 				{
+					
+				}
 
+				break;
+			}
+			case cars_tbl:
+			{
+				CString primaryKey = GetPrimalKey(cars_tbl, row);
+				dlg.InitializingEditor(enums::cars_tbl);
+				dlg.SetCarTableItems(pTable->GetItemText(row,0), pTable->GetItemText(row, 1));
+				if (dlg.DoModal() == IDOK)
+				{
+					string key = CT2A(primaryKey);
+					string carNumber = CT2A(dlg.GetCarTableItems()[0]);
+					if (dlg.GetCarTableItems()[0] != CString(pTable->GetItemText(row, 0))|| dlg.GetCarTableItems()[1] != CString(pTable->GetItemText(row, 1)))
+					{
+						string sql = "";
+						if (dlg.GetCarTableItems()[0] != pTable->GetItemText(row, 0))
+						{
+							// "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
+							sql = "UPDATE cars SET car_number = '" + carNumber+"' WHERE car_id = "+key;
+							int result = mysql_query(pFrame->conn,sql.c_str());
+							if (pFrame->res = mysql_store_result(pFrame->conn))
+							{
+
+							}
+						}
+					}
+					
 				}
 			
 				break;
@@ -190,7 +219,13 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 				
 			case routes_tbl:
 				primalKey = GetPrimalKey(routes_tbl, row);
-				auto a = primalKey;
+				dlg.InitializingEditor(enums::routes_tbl);
+
+				if (dlg.DoModal() == IDOK)
+				{
+
+				}
+
 				break;
 		}
 		Invalidate();

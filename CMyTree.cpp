@@ -13,7 +13,7 @@
 #define CARS 0
 #define DRIVERS 1
 #define ROUTES 2
-
+using namespace enums;
 #define COLUMN_WIDTH 240
 #include"tables.h"
 using namespace std;

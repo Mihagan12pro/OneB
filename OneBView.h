@@ -5,6 +5,7 @@
 #pragma once
 
 class COneBDoc;
+#include"tables.h"
 class CTableExplorerView;
 
 class COneBView : public CListView

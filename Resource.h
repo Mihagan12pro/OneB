@@ -10,6 +10,10 @@
 #define IDD_ROW_EDITOR                  318
 #define IDCANCEL                        1019
 #define IDC_Car_Number_EDIT             1020
+#define IDC_Car_NumberSTATIC            1021
+#define IDC_carBrandSTATIC              1022
+#define IDC_EDIT2                       1023
+#define IDC_Car_Brand_EDIT              1023
 
 // Next default values for new objects
 // 
@@ -17,7 +21,7 @@
 #ifndef APSTUDIO_READONLY_SYMBOLS
 #define _APS_NEXT_RESOURCE_VALUE        320
 #define _APS_NEXT_COMMAND_VALUE         32771
-#define _APS_NEXT_CONTROL_VALUE         1021
+#define _APS_NEXT_CONTROL_VALUE         1024
 #define _APS_NEXT_SYMED_VALUE           313
 #endif
 #endif
