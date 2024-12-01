@@ -243,7 +243,8 @@ void COneBView::FillTable(int tableType)
 		{
 			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += " driver_name,driver_surname  FROM drivers";
+			pTable->InsertColumn(3, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			sqlSelectQuery += " driver_name,driver_surname, driver_patronymic  FROM drivers";
 			break;
 		}
 		case cars_tbl:
