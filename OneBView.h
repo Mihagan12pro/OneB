@@ -6,7 +6,7 @@
 
 class COneBDoc;
 class CTableExplorerView;
-class CRowEditorDlg;
+
 class COneBView : public CListView
 {
 protected: // создать только из сериализации

@@ -187,8 +187,8 @@
     </ResourceCompile>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="CRowEditorDlg.h" />
     <ClInclude Include="CMyTree.h" />
+    <ClInclude Include="CRowEditorDlg.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OneB.h" />
@@ -200,8 +200,8 @@
     <ClInclude Include="targetver.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="CRowEditorDlg.cpp" />
     <ClCompile Include="CMyTree.cpp" />
+    <ClCompile Include="CRowEditorDlg.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OneB.cpp" />
     <ClCompile Include="OneBDoc.cpp" />

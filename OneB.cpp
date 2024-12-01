@@ -161,6 +161,8 @@ protected:
 protected:
 	DECLARE_MESSAGE_MAP()
 	virtual void OnOK();
+public:
+	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
 };
 
 CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
@@ -173,6 +175,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 }
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
+	ON_WM_CREATE()
 END_MESSAGE_MAP()
 
 // Команда приложения для запуска диалога
@@ -193,4 +196,15 @@ void CAboutDlg::OnOK()
 	// TODO: добавьте специализированный код или вызов базового класса
 
 	CDialogEx::OnOK();
+}
+
+
+int CAboutDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
+{
+	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
+		return -1;
+
+	// TODO:  Добавьте специализированный код создания
+
+	return 0;
 }

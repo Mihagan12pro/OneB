@@ -16,10 +16,10 @@
 #include<afxcview.h>
 #include"MainFrm.h"
 #include"tables.h"
-#include"CRowEditorDlg.h"
 #include<string>
 #include"tables.h"
 #include<vector>
+#include"CRowEditorDlg.h"
 #define COLUMN_WIDTH 150
 using namespace std;
 #ifdef _DEBUG
@@ -171,6 +171,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		m_selectedCellIndex = info.iItem;
 
 		CString primalKey;
+		
 		switch (m_pTreeView->GetSelectedItem())
 		{
 			case drivers_tbl:
@@ -179,24 +180,11 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			{
 				CRowEditorDlg dlg;
 
-				CString number, brand;
-
-				number = pTable->GetItemText(info.iItem, 0);
-				brand = pTable->GetItemText(info.iItem, 1);
-
-				primalKey = GetPrimalKey(cars_tbl,row);
-			
-
-				dlg.GetCars(number,brand);
 				if (dlg.DoModal() == IDOK)
 				{
-					if (number != dlg.GetCarNumber())
-					{
-						CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-						
-					}
 				}
+			
 				break;
 			}
 				

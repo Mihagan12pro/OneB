@@ -47,7 +47,7 @@ private:
 	friend class COneBDoc;
 public:
 
-	int GetSelectedItem();
+	int CTableExplorerView::GetSelectedItem();
 
 	afx_msg void OnLButtonDown(UINT nFlags, CPoint point);
 
