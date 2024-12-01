@@ -172,13 +172,13 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 		m_selectedCellIndex = info.iItem;
 
-		CString primalKey;
+		CString primaryKey;
 		CRowEditorDlg dlg;
 		switch (m_pTreeView->GetSelectedItem())
 		{
 			case drivers_tbl:
 			{
-				CString primaryKey = GetPrimalKey(drivers_tbl, row);
+				primaryKey = GetPrimalKey(drivers_tbl, row);
 				dlg.InitializingEditor(enums::drivers_tbl);
 
 				if (dlg.DoModal() == IDOK)
@@ -190,27 +190,24 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			}
 			case cars_tbl:
 			{
-				CString primaryKey = GetPrimalKey(cars_tbl, row);
+				 primaryKey = GetPrimalKey(cars_tbl, row);
 				dlg.InitializingEditor(enums::cars_tbl);
 				dlg.SetCarTableItems(pTable->GetItemText(row,0), pTable->GetItemText(row, 1));
 				if (dlg.DoModal() == IDOK)
 				{
 					string key = CT2A(primaryKey);
 					string carNumber = CT2A(dlg.GetCarTableItems()[0]);
-					if (dlg.GetCarTableItems()[0] != CString(pTable->GetItemText(row, 0))|| dlg.GetCarTableItems()[1] != CString(pTable->GetItemText(row, 1)))
-					{
-						string sql = "";
-						if (dlg.GetCarTableItems()[0] != pTable->GetItemText(row, 0))
-						{
+					string carBrand = CT2A(dlg.GetCarTableItems()[1]);
+			
+						
+						
 							// "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
-							sql = "UPDATE cars SET car_number = '" + carNumber+"' WHERE car_id = "+key;
-							int result = mysql_query(pFrame->conn,sql.c_str());
-							if (pFrame->res = mysql_store_result(pFrame->conn))
-							{
+						string sql = "UPDATE cars SET car_number = '" + carNumber + "' WHERE car_id = " + key + " AND car_number <> '" + carNumber + "'";
+						mysql_query(pFrame->conn,sql.c_str());
+						sql = "UPDATE cars SET car_brand = '" + carBrand + "' WHERE car_id = " + key + " AND car_brand <> '" + carBrand + "'";
+						mysql_query(pFrame->conn, sql.c_str());
 
-							}
-						}
-					}
+					
 					
 				}
 			
@@ -218,7 +215,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			}
 				
 			case routes_tbl:
-				primalKey = GetPrimalKey(routes_tbl, row);
+				primaryKey = GetPrimalKey(routes_tbl, row);
 				dlg.InitializingEditor(enums::routes_tbl);
 
 				if (dlg.DoModal() == IDOK)
