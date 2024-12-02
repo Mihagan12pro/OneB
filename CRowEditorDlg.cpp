@@ -44,12 +44,22 @@ void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Text(pDX, IDC_DriversSurnameEDIT, m_driverSurnameVALUE);
 	DDX_Text(pDX, IDC_DriverNameEDIT, m_driverNameVALUE);
 	DDX_Text(pDX, IDC_DriverPatronymicEDIT, m_driverPatronymicVALUE);
+	DDX_Control(pDX, IDC_Driver_fullname_STATIC, m_driverFullnameSTATIC);
+	DDX_Control(pDX, IDC_Driver_fullname_COMBO, m_driverFullnameCOMBO);
+	DDX_Control(pDX, IDC_Route_Id_STATIC, m_routeIdSTATIC);
+	DDX_Control(pDX, IDC_Route_Id_EDIT, m_routeIdEDIT);
+	DDX_Control(pDX, IDC_Arrival_STATIC, m_arrivalSTATIC);
+	DDX_Control(pDX, IDC_Arrival_EDIT, m_arrivalEDIT);
+	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_routeCarNumberCOMBO);
+	DDX_Control(pDX, IDC_Route_Car_NumberSTATIC, m_routeCarNumberSTATIC);
 }
 
 
 BEGIN_MESSAGE_MAP(CRowEditorDlg, CDialogEx)
 	ON_WM_CREATE()
 	ON_EN_CHANGE(IDC_Car_Number_EDIT, &CRowEditorDlg::OnEnChangeCarNumberEdit)
+	ON_CBN_SELCHANGE(IDC_Driver_fullname_COMBO, &CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo)
+	ON_CBN_SELCHANGE(IDC_route_Car_Number_COMBO, &CRowEditorDlg::OnCbnSelchangerouteCarNumberCombo)
 END_MESSAGE_MAP()
 
 
@@ -108,6 +118,19 @@ BOOL CRowEditorDlg::OnInitDialog()
 			m_driverSurnameEDIT.ShowWindow(SW_SHOW);
 			break;
 		}
+		case routes_tbl:
+		{
+			m_carNumberCOMBO;
+			m_routeIdSTATIC.ShowWindow(SW_SHOW);
+			m_routeIdEDIT.ShowWindow(SW_SHOW);
+			m_arrivalSTATIC.ShowWindow(SW_SHOW);
+			m_arrivalEDIT.ShowWindow(SW_SHOW);
+			m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
+			m_driverFullnameSTATIC.ShowWindow(SW_SHOW);
+			m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
+			m_routeCarNumberSTATIC.ShowWindow(SW_SHOW);
+			break;
+		}
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -160,4 +183,15 @@ void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString p
 	m_driverNameVALUE = name;
 	m_driverSurnameVALUE = surname;
 	m_driverPatronymicVALUE = patronymic;
+}
+
+void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
+{
+	// TODO: добавьте свой код обработчика уведомлений
+}
+
+
+void CRowEditorDlg::OnCbnSelchangerouteCarNumberCombo()
+{
+	// TODO: добавьте свой код обработчика уведомлений
 }

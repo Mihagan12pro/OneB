@@ -60,4 +60,21 @@ private:
 	CString m_driverPatronymicVALUE;
 public:
 	void SetDriverTableItems(CString surname, CString name, CString patronymic);
+private:
+	
+	
+	afx_msg void OnCbnSelchangeDriverfullnameCombo();
+	afx_msg void OnCbnSelchangerouteCarNumberCombo();
+private:
+	CComboBox m_carNumberCOMBO;
+	CStatic m_routeIdSTATIC;
+	CEdit m_routeIdEDIT;
+	CStatic m_arrivalSTATIC;
+	CEdit m_arrivalEDIT;
+	CComboBox m_routeCarNumberCOMBO;
+	CStatic m_driverFullnameSTATIC;
+	CComboBox m_driverFullnameCOMBO;
+	CStatic m_routeCarNumberSTATIC;
+public:
+	
 };

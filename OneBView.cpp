@@ -226,14 +226,19 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			}
 				
 			case routes_tbl:
+			{
 				primaryKey = GetPrimalKey(routes_tbl, row);
 				dlg.InitializingEditor(enums::routes_tbl);
+
+
+
 				if (dlg.DoModal() == IDOK)
 				{
 
 				}
 
 				break;
+			}
 		}
 		Invalidate();
 
@@ -396,7 +401,6 @@ void COneBView::ClearTable()
 CString COneBView::GetPrimalKey(table tableType, int cellId)
 {
 	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
-
 	switch (tableType)
 	{
 		case routes_tbl:
@@ -405,25 +409,21 @@ CString COneBView::GetPrimalKey(table tableType, int cellId)
 		}
 		case cars_tbl:
 		{
-			
-
 			string carNumber = CT2A(pTable->GetItemText(cellId, 0));
 			string carBrand = CT2A(pTable->GetItemText(cellId, 1));
 			//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
-			string query = string("SELECT * FROM cars WHERE car_number = '"+carNumber+"' AND car_brand = '"+carBrand+"'");
+			string query = string("SELECT * FROM cars WHERE car_number = '" + carNumber + "' AND car_brand = '" + carBrand + "'");
 			int ex = mysql_query(pMainFrm->conn, query.c_str());
 
 			pMainFrm->res = mysql_store_result(pMainFrm->conn);
-			
+
 			pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
-				
-			return CString(pMainFrm->row[0]);
-				
-		
+			break;
 		}
 		case drivers_tbl:
 		{
+			
 			string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
 			string driverName = CT2A(pTable->GetItemText(cellId, 1));
 			string driverPatronymic = CT2A(pTable->GetItemText(cellId, 2));
