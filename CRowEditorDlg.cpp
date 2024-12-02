@@ -15,6 +15,9 @@ CRowEditorDlg::CRowEditorDlg(CWnd* pParent /*=nullptr*/)
 	: CDialogEx(IDD_ROW_EDITOR, pParent)
 	, m_carNumberVALUE(_T(""))
 	, m_carBrandVALUE(_T(""))
+	, m_driverSurnameVALUE(_T(""))
+	, m_driverNameVALUE(_T(""))
+	, m_driverPatronymicVALUE(_T(""))
 {
 
 }
@@ -32,6 +35,15 @@ void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_Car_Brand_EDIT, m_carBrandEditor);
 	DDX_Text(pDX, IDC_Car_Number_EDIT, m_carNumberVALUE);
 	DDX_Text(pDX, IDC_Car_Brand_EDIT, m_carBrandVALUE);
+	DDX_Control(pDX, IDC_DriverSurnameSTATIC, m_driverSurnameSTATIC);
+	DDX_Control(pDX, IDC_DriversSurnameEDIT, m_driverSurnameEDIT);
+	DDX_Control(pDX, IDC_DriverNameSTATIC, m_driverNameSTATIC);
+	DDX_Control(pDX, IDC_DriverNameEDIT, m_driverNameEDIT);
+	DDX_Control(pDX, IDC_DriverPatronymicSTATIC, m_driverPatronymicSTATIC);
+	DDX_Control(pDX, IDC_DriverPatronymicEDIT, m_driverPatronymicEDIT);
+	DDX_Text(pDX, IDC_DriversSurnameEDIT, m_driverSurnameVALUE);
+	DDX_Text(pDX, IDC_DriverNameEDIT, m_driverNameVALUE);
+	DDX_Text(pDX, IDC_DriverPatronymicEDIT, m_driverPatronymicVALUE);
 }
 
 
@@ -86,6 +98,16 @@ BOOL CRowEditorDlg::OnInitDialog()
 			m_carBrandEditor.ShowWindow(SW_SHOW);
 			break;
 		}
+		case drivers_tbl:
+		{
+			m_driverNameEDIT.ShowWindow(SW_SHOW);
+			m_driverNameSTATIC.ShowWindow(SW_SHOW);
+			m_driverPatronymicEDIT.ShowWindow(SW_SHOW);
+			m_driverPatronymicSTATIC.ShowWindow(SW_SHOW);
+			m_driverSurnameSTATIC.ShowWindow(SW_SHOW);
+			m_driverSurnameEDIT.ShowWindow(SW_SHOW);
+			break;
+		}
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -101,12 +123,41 @@ void CRowEditorDlg::SetCarTableItems(CString carNumber, CString carBrand)
 
 	
 }
-CString* CRowEditorDlg::GetCarTableItems()
+CString* CRowEditorDlg::GetTableItems()
 {
-	CString items[2];
+	switch (m_selectedTable)
+	{
+		case cars_tbl:
+		{
+			CString items[2];
 
-	items[0] = m_carNumberVALUE;
-	items[1] = m_carBrandVALUE;
+			items[0] = m_carNumberVALUE;
+			items[1] = m_carBrandVALUE;
 
-	return items;
+			return items;
+		}
+		case drivers_tbl:
+		{
+			CString items[3];
+
+			items[0] = m_driverSurnameVALUE;
+			items[1] = m_driverNameVALUE;
+			items[2] = m_driverPatronymicVALUE;
+
+			return items;
+		}
+		default:
+		{
+			return NULL;
+		}
+
+	}
+	
+}
+
+void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString patronymic)
+{
+	m_driverNameVALUE = name;
+	m_driverSurnameVALUE = surname;
+	m_driverPatronymicVALUE = patronymic;
 }

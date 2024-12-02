@@ -44,6 +44,20 @@ private:
 
 public:
 	void SetCarTableItems(CString carNumber,CString carBrand);
+	CString* GetTableItems();
 
-	CString* GetCarTableItems();
+private:
+	CStatic m_driverSurnameSTATIC;
+	CEdit m_driverSurnameEDIT;
+	CStatic m_driverNameSTATIC;
+	CEdit m_driverNameEDIT;
+	CStatic m_driverPatronymicSTATIC;
+	CEdit m_driverPatronymicEDIT;
+
+
+	CString m_driverSurnameVALUE;
+	CString m_driverNameVALUE;
+	CString m_driverPatronymicVALUE;
+public:
+	void SetDriverTableItems(CString surname, CString name, CString patronymic);
 };

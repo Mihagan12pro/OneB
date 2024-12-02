@@ -174,38 +174,49 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 		CString primaryKey;
 		CRowEditorDlg dlg;
+		string StrPrimaryKey;
 		switch (m_pTreeView->GetSelectedItem())
 		{
 			case drivers_tbl:
 			{
 				primaryKey = GetPrimalKey(drivers_tbl, row);
 				dlg.InitializingEditor(enums::drivers_tbl);
-
+				dlg.SetDriverTableItems(pTable->GetItemText(row, 0), pTable->GetItemText(row, 1), pTable->GetItemText(row, 2));
 				if (dlg.DoModal() == IDOK)
 				{
-					
+					StrPrimaryKey = CT2A(primaryKey);
+					string surname = CT2A(dlg.GetTableItems()[0]);
+					string name = CT2A(dlg.GetTableItems()[1]);
+					string patronymic = CT2A(dlg.GetTableItems()[2]);
+
+					string sql = "UPDATE drivers SET driver_surname = '" + surname + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_surname <> '" + surname+"'";
+					mysql_query(pFrame->conn, sql.c_str());
+					sql = "UPDATE drivers SET driver_name = '" + name + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_name <> '" + name + "'";
+					mysql_query(pFrame->conn, sql.c_str());
+					sql = "UPDATE drivers SET driver_patronymic = '" + patronymic + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_patronymic <> '" + patronymic + "'";
+					mysql_query(pFrame->conn, sql.c_str());
 				}
 
 				break;
 			}
 			case cars_tbl:
 			{
-				 primaryKey = GetPrimalKey(cars_tbl, row);
+				primaryKey = GetPrimalKey(cars_tbl, row);
 				dlg.InitializingEditor(enums::cars_tbl);
 				dlg.SetCarTableItems(pTable->GetItemText(row,0), pTable->GetItemText(row, 1));
 				if (dlg.DoModal() == IDOK)
 				{
-					string key = CT2A(primaryKey);
-					string carNumber = CT2A(dlg.GetCarTableItems()[0]);
-					string carBrand = CT2A(dlg.GetCarTableItems()[1]);
+					StrPrimaryKey = CT2A(primaryKey);
+					string carNumber = CT2A(dlg.GetTableItems()[0]);
+					string carBrand = CT2A(dlg.GetTableItems()[1]);
 			
 						
 						
 							// "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
-						string sql = "UPDATE cars SET car_number = '" + carNumber + "' WHERE car_id = " + key + " AND car_number <> '" + carNumber + "'";
-						mysql_query(pFrame->conn,sql.c_str());
-						sql = "UPDATE cars SET car_brand = '" + carBrand + "' WHERE car_id = " + key + " AND car_brand <> '" + carBrand + "'";
-						mysql_query(pFrame->conn, sql.c_str());
+					string sql = "UPDATE cars SET car_number = '" + carNumber + "' WHERE car_id = " + StrPrimaryKey + " AND car_number <> '" + carNumber + "'";
+					mysql_query(pFrame->conn,sql.c_str());
+					sql = "UPDATE cars SET car_brand = '" + carBrand + "' WHERE car_id = " + StrPrimaryKey + " AND car_brand <> '" + carBrand + "'";
+					mysql_query(pFrame->conn, sql.c_str());
 
 					
 					
@@ -217,7 +228,6 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			case routes_tbl:
 				primaryKey = GetPrimalKey(routes_tbl, row);
 				dlg.InitializingEditor(enums::routes_tbl);
-
 				if (dlg.DoModal() == IDOK)
 				{
 
@@ -241,10 +251,11 @@ void COneBView::FillTable(int tableType)
 	{
 		case drivers_tbl:
 		{
+			pTable->InsertColumn(0, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(2, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(3, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += " driver_name,driver_surname, driver_patronymic  FROM drivers";
+			
+			pTable->InsertColumn(2, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+			sqlSelectQuery += " driver_surname,driver_name, driver_patronymic  FROM drivers";
 			break;
 		}
 		case cars_tbl:
@@ -384,7 +395,7 @@ void COneBView::ClearTable()
 }
 CString COneBView::GetPrimalKey(table tableType, int cellId)
 {
-	
+	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
 
 	switch (tableType)
 	{
@@ -394,7 +405,7 @@ CString COneBView::GetPrimalKey(table tableType, int cellId)
 		}
 		case cars_tbl:
 		{
-			CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
+			
 
 			string carNumber = CT2A(pTable->GetItemText(cellId, 0));
 			string carBrand = CT2A(pTable->GetItemText(cellId, 1));
@@ -404,29 +415,28 @@ CString COneBView::GetPrimalKey(table tableType, int cellId)
 
 			pMainFrm->res = mysql_store_result(pMainFrm->conn);
 			
-				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+			pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
 				
-				return CString(pMainFrm->row[0]);
+			return CString(pMainFrm->row[0]);
 				
 		
 		}
 		case drivers_tbl:
 		{
-			/*string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
+			string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
 			string driverName = CT2A(pTable->GetItemText(cellId, 1));
 			string driverPatronymic = CT2A(pTable->GetItemText(cellId, 2));
-			string query = "FROM cars SELECT car_id WHERE driver_surname = " + driverSurname + " AND driver_name = " + driverName+" AND driver_patronymic = "+driverPatronymic;
+			//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
+			string query = string("SELECT * FROM drivers WHERE driver_surname = '" + driverSurname + "' AND driver_name = '" + driverName + "'"+" AND driver_patronymic = '"+driverPatronymic+"'");
+			int ex = mysql_query(pMainFrm->conn, query.c_str());
 
-			mysql_query(pMainFrm->conn, query.c_str());
+			pMainFrm->res = mysql_store_result(pMainFrm->conn);
 
-			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
-			{
-				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+			pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
-				return CString(pMainFrm->row[0]);
 
-			}*/
+			return CString(pMainFrm->row[0]);
 			break;
 		}
 	}
