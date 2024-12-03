@@ -87,7 +87,11 @@ private:
 	CString m_driverId;
 	CString m_carId;
 public:
-	void SetRoutesTableItems(CString routeId, CString driverId,CString carId);
+	void SetRoutesTableItems(CString routeId, CString driverId,CString carId,CString arrival);
 private:
 	CComboBox m_routeCarNumberCOMBO;
+
+	CString m_arrivalVALUE;
+public:
+	CString m_routeIdVALUE;
 };

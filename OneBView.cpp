@@ -230,14 +230,14 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			string strKey = CT2A(primaryKey);
 
 			dlg.InitializingEditor(enums::routes_tbl);
-			string sql = "SELECT driver_id, car_id FROM routes WHERE route_id = " + strKey;
+			string sql = "SELECT driver_id, car_id,arrival FROM routes WHERE route_id = " + strKey;
 
 			mysql_query(pFrame->conn, sql.c_str());
 			pFrame->res = mysql_store_result(pFrame->conn);
 			pFrame->row = mysql_fetch_row(pFrame->res);
 
 
-			dlg.SetRoutesTableItems(primaryKey,CString( pFrame->row[0]), CString(pFrame->row[1]));
+			dlg.SetRoutesTableItems(primaryKey,CString( pFrame->row[0]), CString(pFrame->row[1]), CString(pFrame->row[2]));
 			
 			if (dlg.DoModal() == IDOK)
 			{

@@ -18,6 +18,8 @@ CRowEditorDlg::CRowEditorDlg(CWnd* pParent /*=nullptr*/)
 	, m_driverSurnameVALUE(_T(""))
 	, m_driverNameVALUE(_T(""))
 	, m_driverPatronymicVALUE(_T(""))
+	, m_arrivalVALUE(_T(""))
+	, m_routeIdVALUE(_T(""))
 {
 
 }
@@ -53,6 +55,8 @@ void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 
 	DDX_Control(pDX, IDC_Route_Car_NumberSTATIC, m_routeCarNumberSTATIC);
 	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_routeCarNumberCOMBO);
+	DDX_Text(pDX, IDC_Arrival_EDIT, m_arrivalVALUE);
+	DDX_Text(pDX, IDC_Route_Id_EDIT, m_routeIdVALUE);
 }
 
 
@@ -284,13 +288,12 @@ void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString p
 	m_driverSurnameVALUE = surname;
 	m_driverPatronymicVALUE = patronymic;
 }
-void CRowEditorDlg::SetRoutesTableItems(CString routeId, CString driverId, CString carId)
+void CRowEditorDlg::SetRoutesTableItems(CString routeId, CString driverId, CString carId, CString arrival)
 {
-	
+	m_routeIdVALUE = routeId;
 	m_driverId = driverId;
 	m_carId = carId;
-	
-	
+	m_arrivalVALUE = arrival;
 }
 
 void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
