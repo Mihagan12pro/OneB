@@ -378,7 +378,7 @@ void COneBView::FillTable(int tableType)
 
 			}
 			str = CT2A(routesFieldVector[i].car_id);
-			sqlSelectQuery2 = string("SELECT * FROM cars WHERE car_id = " + str);
+			sqlSelectQuery2 = string("SELECT car_number FROM cars WHERE car_id = " + str);
 
 			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
 
@@ -386,7 +386,7 @@ void COneBView::FillTable(int tableType)
 			{
 				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
-				pTable->SetItemText(n, 4, CString(pMainFrm->row[2]));
+				pTable->SetItemText(n, 4, CString(pMainFrm->row[0]));
 
 			}
 		}
