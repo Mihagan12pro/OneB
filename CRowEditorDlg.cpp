@@ -71,8 +71,8 @@ int CRowEditorDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	if (CDialogEx::OnCreate(lpCreateStruct) == -1)
 		return -1;
 
-	
-	
+
+
 	// TODO:  Добавьте специализированный код создания
 
 	return 0;
@@ -95,42 +95,48 @@ BOOL CRowEditorDlg::OnInitDialog()
 	CDialogEx::OnInitDialog();
 
 	// TODO:  Добавить дополнительную инициализацию
-	
+
 	UpdateData(TRUE);
 
 	switch (m_selectedTable)
 	{
-		case cars_tbl:
+	case cars_tbl:
+	{
+		m_carNumberEDIT.ShowWindow(SW_SHOW);
+		m_carNumberSTATIC.ShowWindow(SW_SHOW);
+		m_carBrandSTATIC.ShowWindow(SW_SHOW);
+		m_carBrandEditor.ShowWindow(SW_SHOW);
+		break;
+	}
+	case drivers_tbl:
+	{
+		m_driverNameEDIT.ShowWindow(SW_SHOW);
+		m_driverNameSTATIC.ShowWindow(SW_SHOW);
+		m_driverPatronymicEDIT.ShowWindow(SW_SHOW);
+		m_driverPatronymicSTATIC.ShowWindow(SW_SHOW);
+		m_driverSurnameSTATIC.ShowWindow(SW_SHOW);
+		m_driverSurnameEDIT.ShowWindow(SW_SHOW);
+		break;
+	}
+	case routes_tbl:
+	{
+		m_carNumberCOMBO;
+		m_routeIdSTATIC.ShowWindow(SW_SHOW);
+		m_routeIdEDIT.ShowWindow(SW_SHOW);
+		m_arrivalSTATIC.ShowWindow(SW_SHOW);
+		m_arrivalEDIT.ShowWindow(SW_SHOW);
+		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
+		m_driverFullnameSTATIC.ShowWindow(SW_SHOW);
+		m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
+		m_routeCarNumberSTATIC.ShowWindow(SW_SHOW);
+
+		for (int i = 0; i < m_numbers.size();i++)
 		{
-			m_carNumberEDIT.ShowWindow(SW_SHOW);
-			m_carNumberSTATIC.ShowWindow(SW_SHOW);
-			m_carBrandSTATIC.ShowWindow(SW_SHOW);
-			m_carBrandEditor.ShowWindow(SW_SHOW);
-			break;
+			m_carNumberCOMBO.AddString(m_numbers[i]);
 		}
-		case drivers_tbl:
-		{
-			m_driverNameEDIT.ShowWindow(SW_SHOW);
-			m_driverNameSTATIC.ShowWindow(SW_SHOW);
-			m_driverPatronymicEDIT.ShowWindow(SW_SHOW);
-			m_driverPatronymicSTATIC.ShowWindow(SW_SHOW);
-			m_driverSurnameSTATIC.ShowWindow(SW_SHOW);
-			m_driverSurnameEDIT.ShowWindow(SW_SHOW);
-			break;
-		}
-		case routes_tbl:
-		{
-			m_carNumberCOMBO;
-			m_routeIdSTATIC.ShowWindow(SW_SHOW);
-			m_routeIdEDIT.ShowWindow(SW_SHOW);
-			m_arrivalSTATIC.ShowWindow(SW_SHOW);
-			m_arrivalEDIT.ShowWindow(SW_SHOW);
-			m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
-			m_driverFullnameSTATIC.ShowWindow(SW_SHOW);
-			m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
-			m_routeCarNumberSTATIC.ShowWindow(SW_SHOW);
-			break;
-		}
+
+		break;
+	}
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control
 	// Исключение: страница свойств OCX должна возвращать значение FALSE
@@ -141,41 +147,46 @@ void CRowEditorDlg::InitializingEditor(table selectedTable)
 }
 void CRowEditorDlg::SetCarTableItems(CString carNumber, CString carBrand)
 {
-	m_carNumberVALUE  = carNumber;
-	m_carBrandVALUE   = carBrand;
+	m_carNumberVALUE = carNumber;
+	m_carBrandVALUE = carBrand;
 
-	
+
 }
 CString* CRowEditorDlg::GetTableItems()
 {
 	switch (m_selectedTable)
 	{
-		case cars_tbl:
-		{
-			CString items[2];
+	case cars_tbl:
+	{
+		CString items[2];
 
-			items[0] = m_carNumberVALUE;
-			items[1] = m_carBrandVALUE;
+		items[0] = m_carNumberVALUE;
+		items[1] = m_carBrandVALUE;
 
-			return items;
-		}
-		case drivers_tbl:
-		{
-			CString items[3];
+		return items;
+	}
+	case drivers_tbl:
+	{
+		CString items[3];
 
-			items[0] = m_driverSurnameVALUE;
-			items[1] = m_driverNameVALUE;
-			items[2] = m_driverPatronymicVALUE;
+		items[0] = m_driverSurnameVALUE;
+		items[1] = m_driverNameVALUE;
+		items[2] = m_driverPatronymicVALUE;
 
-			return items;
-		}
-		default:
-		{
-			return NULL;
-		}
+		return items;
+	}
+	case routes_tbl:
+	{
+
+		break;
+	}
+	default:
+	{
+		return NULL;
+	}
 
 	}
-	
+
 }
 
 void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString patronymic)
@@ -183,6 +194,14 @@ void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString p
 	m_driverNameVALUE = name;
 	m_driverSurnameVALUE = surname;
 	m_driverPatronymicVALUE = patronymic;
+}
+void CRowEditorDlg::SetRoutesTableItems(CString currentNumber, vector<CString> numbers, CString currentFullname, vector<CString>fullnames)
+{
+	m_currentNumber = currentNumber;
+	m_currentFullname = currentFullname;
+	m_numbers = numbers;
+	m_fullnames = fullnames;
+
 }
 
 void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()

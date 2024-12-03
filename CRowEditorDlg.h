@@ -1,6 +1,9 @@
 ﻿#pragma once
+#define _CRT_SECURE_NO_WARNINGS
 #include "afxdialogex.h"
 #include"tables.h"
+#include<vector>
+using namespace std;
 using namespace enums;
 // Диалоговое окно CRowEditorDlg
 
@@ -12,7 +15,7 @@ public:
 	CRowEditorDlg(CWnd* pParent = nullptr);   // стандартный конструктор
 	virtual ~CRowEditorDlg();
 
-// Данные диалогового окна
+	// Данные диалогового окна
 #ifdef AFX_DESIGN_TIME
 	enum { IDD = IDD_ROW_EDITOR };
 #endif
@@ -27,12 +30,12 @@ public:
 	afx_msg void OnEnChangeCarNumberEdit();
 	virtual BOOL OnInitDialog();
 private:
-	
+
 private:
 	table m_selectedTable;
-	
 
-	
+
+
 private:
 	CStatic m_carNumberSTATIC;
 	CStatic m_carBrandSTATIC;
@@ -43,7 +46,7 @@ private:
 	CString m_carBrandVALUE;
 
 public:
-	void SetCarTableItems(CString carNumber,CString carBrand);
+	void SetCarTableItems(CString carNumber, CString carBrand);
 	CString* GetTableItems();
 
 private:
@@ -61,8 +64,8 @@ private:
 public:
 	void SetDriverTableItems(CString surname, CString name, CString patronymic);
 private:
-	
-	
+
+
 	afx_msg void OnCbnSelchangeDriverfullnameCombo();
 	afx_msg void OnCbnSelchangerouteCarNumberCombo();
 private:
@@ -75,6 +78,12 @@ private:
 	CStatic m_driverFullnameSTATIC;
 	CComboBox m_driverFullnameCOMBO;
 	CStatic m_routeCarNumberSTATIC;
+
+
+private:
+	CString m_currentNumber, m_currentFullname;
+	vector<CString> m_numbers;
+	vector<CString> m_fullnames;
 public:
-	
+	void SetRoutesTableItems(CString currentNumber, vector<CString> numbers, CString currentFullname, vector<CString> fullNames);
 };

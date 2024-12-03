@@ -1,8 +1,4 @@
-﻿
-// OneBView.cpp: реализация класса COneBView
-//
-
-#include "pch.h"
+﻿#include "pch.h"
 #include<iostream>
 #include "framework.h"
 // SHARED_HANDLERS можно определить в обработчиках фильтров просмотра реализации проекта ATL, эскизов
@@ -19,12 +15,14 @@
 #include<string>
 #include<vector>
 #include"CRowEditorDlg.h"
+
 #define COLUMN_WIDTH 150
 using namespace std;
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
 using namespace enums;
+
 struct routesField
 {
 	CString driver_id, car_id;
@@ -64,7 +62,7 @@ BOOL COneBView::PreCreateWindow(CREATESTRUCT& cs)
 
 	return CListView::PreCreateWindow(cs);
 }
-CListCtrl *COneBView::GetTable()
+CListCtrl* COneBView::GetTable()
 {
 	return pTable;
 }
@@ -166,9 +164,9 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		int column = info.iSubItem;
 
 		CRect rect;
-		pTable->GetSubItemRect(row,column,LVIR_LABEL,rect);
+		pTable->GetSubItemRect(row, column, LVIR_LABEL, rect);
 
-		
+
 
 		m_selectedCellIndex = info.iItem;
 
@@ -177,68 +175,120 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		string StrPrimaryKey;
 		switch (m_pTreeView->GetSelectedItem())
 		{
-			case drivers_tbl:
+		case drivers_tbl:
+		{
+			primaryKey = GetPrimalKey(drivers_tbl, row);
+			dlg.InitializingEditor(enums::drivers_tbl);
+			dlg.SetDriverTableItems(pTable->GetItemText(row, 0), pTable->GetItemText(row, 1), pTable->GetItemText(row, 2));
+			if (dlg.DoModal() == IDOK)
 			{
-				primaryKey = GetPrimalKey(drivers_tbl, row);
-				dlg.InitializingEditor(enums::drivers_tbl);
-				dlg.SetDriverTableItems(pTable->GetItemText(row, 0), pTable->GetItemText(row, 1), pTable->GetItemText(row, 2));
-				if (dlg.DoModal() == IDOK)
-				{
-					StrPrimaryKey = CT2A(primaryKey);
-					string surname = CT2A(dlg.GetTableItems()[0]);
-					string name = CT2A(dlg.GetTableItems()[1]);
-					string patronymic = CT2A(dlg.GetTableItems()[2]);
+				StrPrimaryKey = CT2A(primaryKey);
+				string surname = CT2A(dlg.GetTableItems()[0]);
+				string name = CT2A(dlg.GetTableItems()[1]);
+				string patronymic = CT2A(dlg.GetTableItems()[2]);
 
-					string sql = "UPDATE drivers SET driver_surname = '" + surname + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_surname <> '" + surname+"'";
-					mysql_query(pFrame->conn, sql.c_str());
-					sql = "UPDATE drivers SET driver_name = '" + name + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_name <> '" + name + "'";
-					mysql_query(pFrame->conn, sql.c_str());
-					sql = "UPDATE drivers SET driver_patronymic = '" + patronymic + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_patronymic <> '" + patronymic + "'";
-					mysql_query(pFrame->conn, sql.c_str());
+				string sql = "UPDATE drivers SET driver_surname = '" + surname + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_surname <> '" + surname + "'";
+				mysql_query(pFrame->conn, sql.c_str());
+				sql = "UPDATE drivers SET driver_name = '" + name + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_name <> '" + name + "'";
+				mysql_query(pFrame->conn, sql.c_str());
+				sql = "UPDATE drivers SET driver_patronymic = '" + patronymic + "' WHERE driver_id = " + StrPrimaryKey + " AND driver_patronymic <> '" + patronymic + "'";
+				mysql_query(pFrame->conn, sql.c_str());
+			}
+
+			break;
+		}
+		case cars_tbl:
+		{
+			primaryKey = GetPrimalKey(cars_tbl, row);
+			dlg.InitializingEditor(enums::cars_tbl);
+			dlg.SetCarTableItems(pTable->GetItemText(row, 0), pTable->GetItemText(row, 1));
+			if (dlg.DoModal() == IDOK)
+			{
+				StrPrimaryKey = CT2A(primaryKey);
+				string carNumber = CT2A(dlg.GetTableItems()[0]);
+				string carBrand = CT2A(dlg.GetTableItems()[1]);
+
+
+
+				// "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
+				string sql = "UPDATE cars SET car_number = '" + carNumber + "' WHERE car_id = " + StrPrimaryKey + " AND car_number <> '" + carNumber + "'";
+				mysql_query(pFrame->conn, sql.c_str());
+				sql = "UPDATE cars SET car_brand = '" + carBrand + "' WHERE car_id = " + StrPrimaryKey + " AND car_brand <> '" + carBrand + "'";
+				mysql_query(pFrame->conn, sql.c_str());
+
+
+
+			}
+
+			break;
+		}
+
+		case routes_tbl:
+		{
+			primaryKey = GetPrimalKey(routes_tbl, row);
+
+
+
+			vector<CString> fullnames;
+			vector<CString> carNumbers;
+			CString currentFullName, currentCarNumber;
+
+			string sql = "SELECT * FROM drivers";
+
+			mysql_query(pFrame->conn, sql.c_str());
+			pFrame->res = mysql_store_result(pFrame->conn);
+
+			while (pFrame->row = mysql_fetch_row(pFrame->res))
+			{
+
+				string surname = pFrame->row[1];
+				string name = pFrame->row[2];
+				string patronymic = pFrame->row[3];
+
+
+
+				string strFullname = surname + ' ' + name + ' ' + patronymic;
+				auto a = strFullname;
+				fullnames.push_back(CString(strFullname.c_str()));
+				if (CString(pFrame->row[0]) == primaryKey)
+				{
+					currentFullName = CString(strFullname.c_str(), strFullname.size());
 				}
 
-				break;
 			}
-			case cars_tbl:
+			sql = "SELECT car_id,car_number FROM cars";
+
+			mysql_query(pFrame->conn, sql.c_str());
+			pFrame->res = mysql_store_result(pFrame->conn);
+
+			while (pFrame->row = mysql_fetch_row(pFrame->res))
 			{
-				primaryKey = GetPrimalKey(cars_tbl, row);
-				dlg.InitializingEditor(enums::cars_tbl);
-				dlg.SetCarTableItems(pTable->GetItemText(row,0), pTable->GetItemText(row, 1));
-				if (dlg.DoModal() == IDOK)
+
+				string number = pFrame->row[1];
+
+
+
+				carNumbers.push_back(CString(number.c_str()));
+
+
+
+				if (CString(pFrame->row[0]) == primaryKey)
 				{
-					StrPrimaryKey = CT2A(primaryKey);
-					string carNumber = CT2A(dlg.GetTableItems()[0]);
-					string carBrand = CT2A(dlg.GetTableItems()[1]);
-			
-						
-						
-							// "UPDATE cars SET car_brand = '" + newBrand + "' WHERE car_id = " + car_id;
-					string sql = "UPDATE cars SET car_number = '" + carNumber + "' WHERE car_id = " + StrPrimaryKey + " AND car_number <> '" + carNumber + "'";
-					mysql_query(pFrame->conn,sql.c_str());
-					sql = "UPDATE cars SET car_brand = '" + carBrand + "' WHERE car_id = " + StrPrimaryKey + " AND car_brand <> '" + carBrand + "'";
-					mysql_query(pFrame->conn, sql.c_str());
-
-					
-					
-				}
-			
-				break;
-			}
-				
-			case routes_tbl:
-			{
-				primaryKey = GetPrimalKey(routes_tbl, row);
-				dlg.InitializingEditor(enums::routes_tbl);
-
-
-
-				if (dlg.DoModal() == IDOK)
-				{
-
+					currentCarNumber = CString(number.c_str());
+					//currentFullName = CString(strFullname.c_str(), strFullname.size());
 				}
 
-				break;
 			}
+
+			dlg.SetRoutesTableItems(currentCarNumber, carNumbers, currentFullName, fullnames);
+			dlg.InitializingEditor(enums::routes_tbl);
+			if (dlg.DoModal() == IDOK)
+			{
+
+			}
+
+			break;
+		}
 		}
 		Invalidate();
 
@@ -254,50 +304,50 @@ void COneBView::FillTable(int tableType)
 	std::string sqlSelectQuery = "SELECT ";
 	switch (tableType)
 	{
-		case drivers_tbl:
-		{
-			pTable->InsertColumn(0, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			
-			pTable->InsertColumn(2, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += " driver_surname,driver_name, driver_patronymic  FROM drivers";
-			break;
-		}
-		case cars_tbl:
-		{
-			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			sqlSelectQuery += " car_number, car_brand FROM cars";
-			break;
-		}
-		case routes_tbl:
-		{
-			sqlSelectQuery += "* FROM routes";
-			pTable->InsertColumn(0, L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(1, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(2, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(3, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(4, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			pTable->InsertColumn(5, L"Место отправления", LVCFMT_LEFT, COLUMN_WIDTH);
+	case drivers_tbl:
+	{
+		pTable->InsertColumn(0, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 
-			break;
-		}
-		default:
-		{
-			throw exception("Undefined table!");
-			break;
-		}
+		pTable->InsertColumn(2, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+		sqlSelectQuery += " driver_surname,driver_name, driver_patronymic  FROM drivers";
+		break;
+	}
+	case cars_tbl:
+	{
+		pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
+		sqlSelectQuery += " car_number, car_brand FROM cars";
+		break;
+	}
+	case routes_tbl:
+	{
+		sqlSelectQuery += "* FROM routes";
+		pTable->InsertColumn(0, L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(1, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(2, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(3, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(4, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
+		pTable->InsertColumn(5, L"Место отправления", LVCFMT_LEFT, COLUMN_WIDTH);
+
+		break;
+	}
+	default:
+	{
+		throw exception("Undefined table!");
+		break;
+	}
 	}
 
 	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
-	
+
 	int result = mysql_query(pMainFrm->conn, sqlSelectQuery.c_str());
 
 	vector<routesField>routesFieldVector;
 	vector<int>rowIds;
 	if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 	{
-	
+
 		while (pMainFrm->row = mysql_fetch_row(pMainFrm->res))
 		{
 
@@ -308,7 +358,7 @@ void COneBView::FillTable(int tableType)
 
 				for (int i = 1; i < mysql_num_fields(pMainFrm->res); i++)
 				{
-				
+
 					CString columnItem = CString(pMainFrm->row[i]);
 					pTable->SetItemText(rowId, i, columnItem);
 				}
@@ -322,53 +372,53 @@ void COneBView::FillTable(int tableType)
 				{
 					switch (i)
 					{
-						case 1:
-						{
-							field.driver_id = CString(pMainFrm->row[i]);
-							break;
-						}
-						case 2:
-						{
-							field.car_id = CString(pMainFrm->row[i]);
-							break;
-						}
-						case 3:
-						{
-							CString columnItem = CString(pMainFrm->row[i]);
-							pTable->SetItemText(rowId, 5, columnItem);
-							break;
-						}
-						
+					case 1:
+					{
+						field.driver_id = CString(pMainFrm->row[i]);
+						break;
 					}
-					
+					case 2:
+					{
+						field.car_id = CString(pMainFrm->row[i]);
+						break;
+					}
+					case 3:
+					{
+						CString columnItem = CString(pMainFrm->row[i]);
+						pTable->SetItemText(rowId, 5, columnItem);
+						break;
+					}
+
+					}
+
 				}
 				routesFieldVector.push_back(field);
 			}
 		}
-		
+
 	}
 	if (tableType == routes_tbl)
 	{
-	
+
 		int n = -1;
 		for (int i = 0; i < routesFieldVector.size();i++)
 		{
 			string str = CT2A(routesFieldVector[i].driver_id);
-			string sqlSelectQuery2 = string("SELECT * FROM drivers WHERE driver_id = "+str);
+			string sqlSelectQuery2 = string("SELECT * FROM drivers WHERE driver_id = " + str);
 
 			mysql_query(pMainFrm->conn, sqlSelectQuery2.c_str());
 			n++;
 			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 			{
 				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
-				
-				
-					pTable->SetItemText(n,1, CString(pMainFrm->row[1]));
 
-					pTable->SetItemText(n, 2, CString(pMainFrm->row[2]));
-					pTable->SetItemText(n, 3, CString(pMainFrm->row[3]));
 
-				
+				pTable->SetItemText(n, 1, CString(pMainFrm->row[1]));
+
+				pTable->SetItemText(n, 2, CString(pMainFrm->row[2]));
+				pTable->SetItemText(n, 3, CString(pMainFrm->row[3]));
+
+
 			}
 			str = CT2A(routesFieldVector[i].car_id);
 			sqlSelectQuery2 = string("SELECT * FROM cars WHERE car_id = " + str);
@@ -378,11 +428,11 @@ void COneBView::FillTable(int tableType)
 			if (pMainFrm->res = mysql_store_result(pMainFrm->conn))
 			{
 				pMainFrm->row = mysql_fetch_row(pMainFrm->res);
-			
+
 				pTable->SetItemText(n, 4, CString(pMainFrm->row[2]));
-				
+
 			}
-		}	
+		}
 	}
 }
 void COneBView::ClearTable()
@@ -403,42 +453,43 @@ CString COneBView::GetPrimalKey(table tableType, int cellId)
 	CMainFrame* pMainFrm = (CMainFrame*)AfxGetMainWnd();
 	switch (tableType)
 	{
-		case routes_tbl:
-		{
-			return pTable->GetItemText(cellId,0);
-		}
-		case cars_tbl:
-		{
-			string carNumber = CT2A(pTable->GetItemText(cellId, 0));
-			string carBrand = CT2A(pTable->GetItemText(cellId, 1));
-			//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
-			string query = string("SELECT * FROM cars WHERE car_number = '" + carNumber + "' AND car_brand = '" + carBrand + "'");
-			int ex = mysql_query(pMainFrm->conn, query.c_str());
+	case routes_tbl:
+	{
+		return pTable->GetItemText(cellId, 0);
+	}
+	case cars_tbl:
+	{
+		string carNumber = CT2A(pTable->GetItemText(cellId, 0));
+		string carBrand = CT2A(pTable->GetItemText(cellId, 1));
+		//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
+		string query = string("SELECT * FROM cars WHERE car_number = '" + carNumber + "' AND car_brand = '" + carBrand + "'");
+		int ex = mysql_query(pMainFrm->conn, query.c_str());
 
-			pMainFrm->res = mysql_store_result(pMainFrm->conn);
+		pMainFrm->res = mysql_store_result(pMainFrm->conn);
 
-			pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+		pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
-			break;
-		}
-		case drivers_tbl:
-		{
-			
-			string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
-			string driverName = CT2A(pTable->GetItemText(cellId, 1));
-			string driverPatronymic = CT2A(pTable->GetItemText(cellId, 2));
-			//string query = string("SELECT * FROM cars WHERE car_number = 'А123ВР77' AND car_brand = 'КАМАЗ'");
-			string query = string("SELECT * FROM drivers WHERE driver_surname = '" + driverSurname + "' AND driver_name = '" + driverName + "'"+" AND driver_patronymic = '"+driverPatronymic+"'");
-			int ex = mysql_query(pMainFrm->conn, query.c_str());
+		return CString(pMainFrm->row[0]);
+		break;
+	}
+	case drivers_tbl:
+	{
 
-			pMainFrm->res = mysql_store_result(pMainFrm->conn);
+		string driverSurname = CT2A(pTable->GetItemText(cellId, 0));
+		string driverName = CT2A(pTable->GetItemText(cellId, 1));
+		string driverPatronymic = CT2A(pTable->GetItemText(cellId, 2));
 
-			pMainFrm->row = mysql_fetch_row(pMainFrm->res);
+		string query = string("SELECT * FROM drivers WHERE driver_surname = '" + driverSurname + "' AND driver_name = '" + driverName + "'" + " AND driver_patronymic = '" + driverPatronymic + "'");
+		int ex = mysql_query(pMainFrm->conn, query.c_str());
+
+		pMainFrm->res = mysql_store_result(pMainFrm->conn);
+
+		pMainFrm->row = mysql_fetch_row(pMainFrm->res);
 
 
-			return CString(pMainFrm->row[0]);
-			break;
-		}
+		return CString(pMainFrm->row[0]);
+		break;
+	}
 	}
 	return L"";
 }
