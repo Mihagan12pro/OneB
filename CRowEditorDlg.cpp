@@ -50,8 +50,9 @@ void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_Route_Id_EDIT, m_routeIdEDIT);
 	DDX_Control(pDX, IDC_Arrival_STATIC, m_arrivalSTATIC);
 	DDX_Control(pDX, IDC_Arrival_EDIT, m_arrivalEDIT);
-	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_routeCarNumberCOMBO);
+
 	DDX_Control(pDX, IDC_Route_Car_NumberSTATIC, m_routeCarNumberSTATIC);
+	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_routeCarNumberCOMBO);
 }
 
 
@@ -128,8 +129,9 @@ BOOL CRowEditorDlg::OnInitDialog()
 		m_routeIdEDIT.ShowWindow(SW_SHOW);
 		m_arrivalEDIT.ShowWindow(SW_SHOW);
 
-		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
+		//m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
 		m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
+		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
 		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
@@ -150,20 +152,21 @@ BOOL CRowEditorDlg::OnInitDialog()
 			m_driverFullnameCOMBO.AddString(CString(full.c_str()));
 		}
 
-		//query = "SELECT car_number FROM cars";
-		//mysql_query(pFrame->conn, query.c_str());
-		//pFrame->res = mysql_store_result(pFrame->conn);
-		//while (pFrame->row = mysql_fetch_row(pFrame->res))
-		//{
-		//	
+		query = "SELECT * FROM cars";
+		mysql_query(pFrame->conn, query.c_str());
+		pFrame->res = mysql_store_result(pFrame->conn);
+		while (pFrame->row = mysql_fetch_row(pFrame->res))
+		{
+			m_routeCarNumberCOMBO.AddString(CString(pFrame -> row[1]));
 
-		//	m_carNumberCOMBO.AddString(CString(pFrame->row[0]));
-		//}
-
+		}
 
 
-		string driver_id =CT2A(m_driverId);
+
+		string driver_id = CT2A(m_driverId);
 		query = "SELECT * FROM drivers WHERE driver_id = "+driver_id;
+
+		
 
 		mysql_query(pFrame->conn, query.c_str());
 		pFrame->res = mysql_store_result(pFrame->conn);
@@ -189,6 +192,35 @@ BOOL CRowEditorDlg::OnInitDialog()
 			{
 				m_driverFullnameCOMBO.SetCurSel(i);
 				i = m_driverFullnameCOMBO.GetCount();
+			}
+		}
+
+
+
+		string car_id = CT2A(m_carId);
+		query = "SELECT car_number FROM cars WHERE car_id = " + car_id;
+		mysql_query(pFrame->conn, query.c_str());
+		pFrame->res = mysql_store_result(pFrame->conn);
+		pFrame->row = mysql_fetch_row(pFrame->res);
+
+		string car_number = pFrame->row[0];
+
+		int a = m_routeCarNumberCOMBO.GetCount();
+
+		for (int i = 0; i < m_routeCarNumberCOMBO.GetCount(); i++)
+		{
+
+			CString comboFull = L"";
+
+			m_routeCarNumberCOMBO.GetLBText(i, comboFull);
+
+			string strNumber= CT2A(comboFull);
+
+
+			if (strNumber == car_number)
+			{
+				m_routeCarNumberCOMBO.SetCurSel(i);
+				i = m_routeCarNumberCOMBO.GetCount();
 			}
 		}
 
@@ -258,7 +290,7 @@ void CRowEditorDlg::SetRoutesTableItems(CString routeId, CString driverId, CStri
 	m_driverId = driverId;
 	m_carId = carId;
 	
-	auto a = routeId;
+	
 }
 
 void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()

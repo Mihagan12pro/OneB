@@ -235,57 +235,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			mysql_query(pFrame->conn, sql.c_str());
 			pFrame->res = mysql_store_result(pFrame->conn);
 			pFrame->row = mysql_fetch_row(pFrame->res);
-			//pFrame->res = mysql_store_result(pFrame->conn);
-			//vector<CString> fullnames;
-			//vector<CString> carNumbers;
-			//CString currentFullName, currentCarNumber;
 
-			//string sql = "SELECT * FROM drivers";
-
-			//mysql_query(pFrame->conn, sql.c_str());
-			//pFrame->res = mysql_store_result(pFrame->conn);
-
-			//while (pFrame->row = mysql_fetch_row(pFrame->res))
-			//{
-
-			//	string surname = pFrame->row[1];
-			//	string name = pFrame->row[2];
-			//	string patronymic = pFrame->row[3];
-
-
-
-			//	string strFullname = surname + ' ' + name + ' ' + patronymic;
-			//	auto a = strFullname;
-			//	fullnames.push_back(CString(strFullname.c_str()));
-			//	if (CString(pFrame->row[0]) == primaryKey)
-			//	{
-			//		currentFullName = CString(strFullname.c_str(), strFullname.size());
-			//	}
-
-			//}
-			//sql = "SELECT car_id,car_number FROM cars";
-
-			//mysql_query(pFrame->conn, sql.c_str());
-			//pFrame->res = mysql_store_result(pFrame->conn);
-
-			//while (pFrame->row = mysql_fetch_row(pFrame->res))
-			//{
-
-			//	string number = pFrame->row[1];
-
-
-
-			//	carNumbers.push_back(CString(number.c_str()));
-
-
-
-			//	if (CString(pFrame->row[0]) == primaryKey)
-			//	{
-			//		currentCarNumber = CString(number.c_str());
-			//		//currentFullName = CString(strFullname.c_str(), strFullname.size());
-			//	}
-
-			//}
 
 			dlg.SetRoutesTableItems(primaryKey,CString( pFrame->row[0]), CString(pFrame->row[1]));
 			
