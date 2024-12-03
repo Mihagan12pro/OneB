@@ -8,6 +8,7 @@
 #define IDR_OneBTYPE                    130
 #define IDD_CarRowEditor                310
 #define IDD_ROW_EDITOR                  318
+#define IDB_BITMAP1                     320
 #define IDCANCEL                        1019
 #define IDC_Car_Number_EDIT             1020
 #define IDC_Car_NumberSTATIC            1021
@@ -34,7 +35,7 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        320
+#define _APS_NEXT_RESOURCE_VALUE        321
 #define _APS_NEXT_COMMAND_VALUE         32771
 #define _APS_NEXT_CONTROL_VALUE         1044
 #define _APS_NEXT_SYMED_VALUE           313

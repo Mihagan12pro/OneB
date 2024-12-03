@@ -98,5 +98,8 @@
     <Image Include="res\Toolbar.bmp">
       <Filter>Файлы ресурсов</Filter>
     </Image>
+    <Image Include="..\..\..\Downloads\Icon.ico">
+      <Filter>Файлы ресурсов</Filter>
+    </Image>
   </ItemGroup>
 </Project>

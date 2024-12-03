@@ -223,6 +223,7 @@
     <None Include="x64\Debug\libmysql.dll" />
   </ItemGroup>
   <ItemGroup>
+    <Image Include="..\..\..\Downloads\Icon.ico" />
     <Image Include="res\OneB.ico" />
     <Image Include="res\OneBDoc.ico" />
     <Image Include="res\Toolbar.bmp" />

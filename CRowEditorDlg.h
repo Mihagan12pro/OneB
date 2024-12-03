@@ -82,8 +82,10 @@ private:
 
 private:
 	CString m_currentNumber, m_currentFullname;
-	vector<CString> m_numbers;
-	vector<CString> m_fullnames;
+	
+
+	CString m_driverId;
+	CString m_carId;
 public:
-	void SetRoutesTableItems(CString currentNumber, vector<CString> numbers, CString currentFullname, vector<CString> fullNames);
+	void SetRoutesTableItems(CString routeId, CString driverId,CString carId);
 };

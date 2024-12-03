@@ -5,7 +5,7 @@
 #include "OneB.h"
 #include "afxdialogex.h"
 #include "CRowEditorDlg.h"
-
+#include"MainFrm.h"
 
 // Диалоговое окно CRowEditorDlg
 
@@ -120,19 +120,76 @@ BOOL CRowEditorDlg::OnInitDialog()
 	}
 	case routes_tbl:
 	{
-		m_carNumberCOMBO;
-		m_routeIdSTATIC.ShowWindow(SW_SHOW);
-		m_routeIdEDIT.ShowWindow(SW_SHOW);
-		m_arrivalSTATIC.ShowWindow(SW_SHOW);
-		m_arrivalEDIT.ShowWindow(SW_SHOW);
-		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
 		m_driverFullnameSTATIC.ShowWindow(SW_SHOW);
-		m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
+		m_routeIdSTATIC.ShowWindow(SW_SHOW);
+		m_arrivalSTATIC.ShowWindow(SW_SHOW);
 		m_routeCarNumberSTATIC.ShowWindow(SW_SHOW);
 
-		for (int i = 0; i < m_numbers.size();i++)
+		m_routeIdEDIT.ShowWindow(SW_SHOW);
+		m_arrivalEDIT.ShowWindow(SW_SHOW);
+
+		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
+		m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
+		
+		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+		string query = "SELECT * FROM drivers";
+
+		mysql_query(pFrame->conn,query.c_str());
+		pFrame->res = mysql_store_result(pFrame->conn);
+
+		
+		while (pFrame->row = mysql_fetch_row(pFrame->res))
 		{
-			m_carNumberCOMBO.AddString(m_numbers[i]);
+			string surname = pFrame -> row[1];
+			string name = pFrame -> row[2];
+			string patronymic = pFrame->row[3];
+
+			string full = surname + ' ' + name + ' ' + patronymic;
+
+			m_driverFullnameCOMBO.AddString(CString(full.c_str()));
+		}
+
+		//query = "SELECT car_number FROM cars";
+		//mysql_query(pFrame->conn, query.c_str());
+		//pFrame->res = mysql_store_result(pFrame->conn);
+		//while (pFrame->row = mysql_fetch_row(pFrame->res))
+		//{
+		//	
+
+		//	m_carNumberCOMBO.AddString(CString(pFrame->row[0]));
+		//}
+
+
+
+		string driver_id =CT2A(m_driverId);
+		query = "SELECT * FROM drivers WHERE driver_id = "+driver_id;
+
+		mysql_query(pFrame->conn, query.c_str());
+		pFrame->res = mysql_store_result(pFrame->conn);
+		pFrame->row = mysql_fetch_row(pFrame->res);
+
+		string surname = pFrame->row[1];
+		string name = pFrame->row[2];
+		string patronymic = pFrame->row[3];
+
+		CString full =CString( (surname + ' ' + name + ' ' + patronymic).c_str());
+
+		for (int i = 0;i < m_driverFullnameCOMBO.GetCount();i++)
+		{
+			
+			CString comboFull = L"";
+
+			m_driverFullnameCOMBO.GetLBText(i, comboFull);
+
+			string strFull = CT2A(comboFull);
+
+
+			if (comboFull == full)
+			{
+				m_driverFullnameCOMBO.SetCurSel(i);
+				i = m_driverFullnameCOMBO.GetCount();
+			}
 		}
 
 		break;
@@ -195,13 +252,13 @@ void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString p
 	m_driverSurnameVALUE = surname;
 	m_driverPatronymicVALUE = patronymic;
 }
-void CRowEditorDlg::SetRoutesTableItems(CString currentNumber, vector<CString> numbers, CString currentFullname, vector<CString>fullnames)
+void CRowEditorDlg::SetRoutesTableItems(CString routeId, CString driverId, CString carId)
 {
-	m_currentNumber = currentNumber;
-	m_currentFullname = currentFullname;
-	m_numbers = numbers;
-	m_fullnames = fullnames;
-
+	
+	m_driverId = driverId;
+	m_carId = carId;
+	
+	auto a = routeId;
 }
 
 void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
