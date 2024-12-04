@@ -6,7 +6,7 @@
 #include "afxdialogex.h"
 #include "CRowEditorDlg.h"
 #include"MainFrm.h"
-
+#include<sstream>
 // Диалоговое окно CRowEditorDlg
 
 IMPLEMENT_DYNAMIC(CRowEditorDlg, CDialogEx)
@@ -270,6 +270,7 @@ CString* CRowEditorDlg::GetTableItems()
 	}
 	case routes_tbl:
 	{
+		CString items[3];
 
 		break;
 	}
@@ -296,9 +297,52 @@ void CRowEditorDlg::SetRoutesTableItems(CString routeId, CString driverId, CStri
 	m_arrivalVALUE = arrival;
 }
 
-void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
+void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()	
 {
 	// TODO: добавьте свой код обработчика уведомлений
+	CString fullName;
+
+	m_driverFullnameCOMBO.GetLBText(m_driverFullnameCOMBO.GetCurSel(),fullName);
+
+	string strFullName = CT2A(fullName);
+	
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	istringstream iss(strFullName);
+
+	
+
+	string surname,name,patronymic;
+
+	int i = 0;
+	string str;
+	while (iss >> str)
+	{
+		switch (i)
+		{
+			case 0:
+				surname = str;
+				break;
+			case 1:
+				name = str;
+				break;
+			default:
+				patronymic = str;
+				break;
+		}
+		i++;
+	}
+
+	string sql = "SELECT driver_id FROM drivers WHERE driver_surname = '"+surname+"' AND driver_name = '"+name+"' AND driver_patronymic = '"+patronymic+"'";
+
+	mysql_query(pFrame->conn,sql.c_str());
+
+	pFrame -> res = mysql_store_result(pFrame->conn);
+
+	pFrame->row = mysql_fetch_row(pFrame->res);
+
+	m_driverId = CString(pFrame->row[0]);	
 }
 
 
