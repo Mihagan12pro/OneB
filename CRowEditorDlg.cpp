@@ -271,6 +271,11 @@ CString* CRowEditorDlg::GetTableItems()
 	case routes_tbl:
 	{
 		CString items[3];
+		items[0] = m_driverId;
+		items[1] = m_carId;
+		items[2] = m_arrivalVALUE;
+
+		return items;
 
 		break;
 	}
@@ -364,6 +369,7 @@ void CRowEditorDlg::OnCbnSelchangerouteCarNumberCombo()
 	pFrame->row = mysql_fetch_row(pFrame->res);
 
 	m_carId = CString(pFrame->row[0]);
+	auto a = m_carId;
 	
 	// TODO: добавьте свой код обработчика уведомлений
 }

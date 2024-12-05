@@ -241,7 +241,20 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			
 			if (dlg.DoModal() == IDOK)
 			{
+				auto a = pTable->GetItemText(row,4);
+				auto b = a;
+				string driver_id =CT2A(dlg.GetTableItems()[0]);
+				string car_id = CT2A(dlg.GetTableItems()[1]);
+				string arrival = CT2A(dlg.GetTableItems()[2]);
+				
+				sql = "UPDATE routes SET driver_id ='"+driver_id+ "' WHERE driver_id <> '" + driver_id + "' AND route_id = " + strKey;
+				mysql_query(pFrame->conn,sql.c_str());
 
+				sql = "UPDATE routes SET car_id = '" + car_id + "' WHERE car_id <> '" + car_id + "' AND route_id = " + strKey;
+				mysql_query(pFrame->conn, sql.c_str());
+				
+				sql = "UPDATE routes SET arrival = '" + arrival + "' WHERE arrival <> '" + arrival + "' AND route_id = " + strKey;
+				mysql_query(pFrame->conn, sql.c_str());
 			}
 
 			break;
