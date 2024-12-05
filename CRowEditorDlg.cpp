@@ -54,7 +54,7 @@ void CRowEditorDlg::DoDataExchange(CDataExchange* pDX)
 	DDX_Control(pDX, IDC_Arrival_EDIT, m_arrivalEDIT);
 
 	DDX_Control(pDX, IDC_Route_Car_NumberSTATIC, m_routeCarNumberSTATIC);
-	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_routeCarNumberCOMBO);
+	DDX_Control(pDX, IDC_route_Car_Number_COMBO, m_CarNumberCOMBO);
 	DDX_Text(pDX, IDC_Arrival_EDIT, m_arrivalVALUE);
 	DDX_Text(pDX, IDC_Route_Id_EDIT, m_routeIdVALUE);
 }
@@ -135,7 +135,7 @@ BOOL CRowEditorDlg::OnInitDialog()
 
 		//m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
 		m_driverFullnameCOMBO.ShowWindow(SW_SHOW);
-		m_routeCarNumberCOMBO.ShowWindow(SW_SHOW);
+		m_CarNumberCOMBO.ShowWindow(SW_SHOW);
 		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
@@ -161,7 +161,7 @@ BOOL CRowEditorDlg::OnInitDialog()
 		pFrame->res = mysql_store_result(pFrame->conn);
 		while (pFrame->row = mysql_fetch_row(pFrame->res))
 		{
-			m_routeCarNumberCOMBO.AddString(CString(pFrame -> row[1]));
+			m_CarNumberCOMBO.AddString(CString(pFrame -> row[1]));
 
 		}
 
@@ -209,22 +209,22 @@ BOOL CRowEditorDlg::OnInitDialog()
 
 		string car_number = pFrame->row[0];
 
-		int a = m_routeCarNumberCOMBO.GetCount();
+		int a = m_CarNumberCOMBO.GetCount();
 
-		for (int i = 0; i < m_routeCarNumberCOMBO.GetCount(); i++)
+		for (int i = 0; i < m_CarNumberCOMBO.GetCount(); i++)
 		{
 
 			CString comboFull = L"";
 
-			m_routeCarNumberCOMBO.GetLBText(i, comboFull);
+			m_CarNumberCOMBO.GetLBText(i, comboFull);
 
 			string strNumber= CT2A(comboFull);
 
 
 			if (strNumber == car_number)
 			{
-				m_routeCarNumberCOMBO.SetCurSel(i);
-				i = m_routeCarNumberCOMBO.GetCount();
+				m_CarNumberCOMBO.SetCurSel(i);
+				i = m_CarNumberCOMBO.GetCount();
 			}
 		}
 
@@ -348,5 +348,22 @@ void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
 
 void CRowEditorDlg::OnCbnSelchangerouteCarNumberCombo()
 {
+	
+	CString carNumber;
+	m_CarNumberCOMBO.GetLBText(m_CarNumberCOMBO.GetCurSel(), carNumber);
+
+	string strCarNumber = CT2A(carNumber);
+
+	CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+	string sql = "SELECT car_id FROM cars WHERE car_number = '"+strCarNumber+"'";
+
+	mysql_query(pFrame->conn,sql.c_str());
+
+	pFrame->res = mysql_store_result(pFrame->conn);
+	pFrame->row = mysql_fetch_row(pFrame->res);
+
+	m_carId = CString(pFrame->row[0]);
+	
 	// TODO: добавьте свой код обработчика уведомлений
 }
