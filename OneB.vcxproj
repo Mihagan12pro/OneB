@@ -189,6 +189,7 @@
   <ItemGroup>
     <ClInclude Include="CMyTree.h" />
     <ClInclude Include="CRowEditorDlg.h" />
+    <ClInclude Include="CSortRows.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="MainFrm.h" />
     <ClInclude Include="OneB.h" />
@@ -202,6 +203,7 @@
   <ItemGroup>
     <ClCompile Include="CMyTree.cpp" />
     <ClCompile Include="CRowEditorDlg.cpp" />
+    <ClCompile Include="CSortRows.cpp" />
     <ClCompile Include="MainFrm.cpp" />
     <ClCompile Include="OneB.cpp" />
     <ClCompile Include="OneBDoc.cpp" />

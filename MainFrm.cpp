@@ -9,6 +9,7 @@
 #include"CMyTree.h"
 #include "MainFrm.h"
 #include"OneBView.h"
+#include"CSortRows.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -169,17 +170,19 @@ void CMainFrame::Dump(CDumpContext& dc) const
 BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 {
 	// TODO: добавьте специализированный код или вызов базового класса
-	m_wndSplitter.CreateStatic(this,1,2);
+	m_wndSplitter.CreateStatic(this,1,3);
 
 	m_wndSplitter.CreateView(0, 0, RUNTIME_CLASS(CTableExplorerView), CSize(200, 0), pContext);
-	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(COneBView), CSize(0, 0), pContext);
-
+	m_wndSplitter.CreateView(0, 1, RUNTIME_CLASS(COneBView), CSize(900, 0), pContext);
+	m_wndSplitter.CreateView(0, 2, RUNTIME_CLASS(CSortRowsView), CSize(0, 0), pContext);
+	//CSortRows
 	SetActiveView((CView*)m_wndSplitter.GetPane(0, 1));
 
 	COneBDoc* pDoc = (COneBDoc*)GetActiveDocument();
 
 	pDoc->m_pTreeView = (CTableExplorerView*)m_wndSplitter.GetPane(0, 0);
-	pDoc->m_pView = (COneBView*)m_wndSplitter.GetPane(0, 1);
+	pDoc->m_pFormView = (CSortRowsView*)m_wndSplitter.GetPane(0, 2);
+	pDoc->m_pView = (COneBView*)m_wndSplitter.GetPane(0, 2);
 
 	pDoc->m_pTreeView->m_pDoc = pDoc;
 

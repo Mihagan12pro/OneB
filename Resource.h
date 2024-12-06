@@ -7,6 +7,7 @@
 #define IDR_MAINFRAME                   128
 #define IDR_OneBTYPE                    130
 #define IDD_CarRowEditor                310
+#define IDD_CSortRows                   313
 #define IDD_ROW_EDITOR                  318
 #define IDB_BITMAP1                     320
 #define IDCANCEL                        1019
@@ -30,6 +31,8 @@
 #define IDC_COMBO                       1042
 #define IDC_route_Car_Number_COMBO      1042
 #define IDC_Route_Car_NumberSTATIC      1043
+#define IDC_MFCVSLISTBOX1               1044
+#define IDC_MONTHCALENDAR1              1045
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -42,9 +45,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        321
+#define _APS_NEXT_RESOURCE_VALUE        322
 #define _APS_NEXT_COMMAND_VALUE         32778
-#define _APS_NEXT_CONTROL_VALUE         1044
-#define _APS_NEXT_SYMED_VALUE           313
+#define _APS_NEXT_CONTROL_VALUE         1046
+#define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif

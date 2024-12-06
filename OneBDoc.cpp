@@ -17,6 +17,7 @@ using namespace std;
 #include"MainFrm.h"
 #include"CMyTree.h"
 #include "OneBDoc.h"
+#include"CSortRows.h"
 
 #include <propkey.h>
 
