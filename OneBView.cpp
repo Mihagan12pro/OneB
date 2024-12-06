@@ -41,6 +41,7 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	ON_WM_LBUTTONDOWN()
 	//ON_NOTIFY_REFLECT(NM_CLICK, &COneBView::OnNMClick)
 	ON_WM_LBUTTONDBLCLK()
+	ON_COMMAND(ID_add_new_driver, &COneBView::OnAddNewDriver)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -241,8 +242,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 			
 			if (dlg.DoModal() == IDOK)
 			{
-				auto a = pTable->GetItemText(row,4);
-				auto b = a;
+	
 				string driver_id =CT2A(dlg.GetTableItems()[0]);
 				string car_id = CT2A(dlg.GetTableItems()[1]);
 				string arrival = CT2A(dlg.GetTableItems()[2]);
@@ -462,4 +462,34 @@ CString COneBView::GetPrimalKey(table tableType, int cellId)
 	}
 	}
 	return L"";
+}
+
+void COneBView::OnAddNewDriver()
+{
+	// TODO: добавьте свой код обработчика команд
+
+	CRowEditorDlg dlg;
+
+	dlg.InitializingEditor(enums::drivers_tbl);
+
+	if (dlg.DoModal() == IDOK)
+	{
+		if (dlg.GetTableItems().size() > 0)
+		{
+			string driver_surname = CT2A(dlg.GetTableItems()[0]);
+			string driver_name = CT2A(dlg.GetTableItems()[1]);
+			string driver_patronymic = CT2A(dlg.GetTableItems()[2]);
+
+			string sql = "INSERT INTO drivers (driver_surname, driver_name, driver_patronymic) VALUES ('"+driver_surname+"', '"+driver_name+"', '"+driver_patronymic+"')";
+			
+			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+			mysql_query(pFrame->conn,sql.c_str());
+
+
+
+			return;
+		}
+		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
+	}
 }

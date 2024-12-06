@@ -245,47 +245,48 @@ void CRowEditorDlg::SetCarTableItems(CString carNumber, CString carBrand)
 
 
 }
-CString* CRowEditorDlg::GetTableItems()
+vector<CString> CRowEditorDlg::GetTableItems()
 {
+	vector<CString>items;
 	switch (m_selectedTable)
 	{
 	case cars_tbl:
 	{
-		CString items[2];
-
-		items[0] = m_carNumberVALUE;
-		items[1] = m_carBrandVALUE;
-
-		return items;
+		if (m_carNumberVALUE != L"" && m_carBrandVALUE != L"")
+		{
+			items.push_back(m_carNumberVALUE);
+			items.push_back(m_carBrandVALUE);
+		}
+		
+		break;
 	}
 	case drivers_tbl:
 	{
-		CString items[3];
-
-		items[0] = m_driverSurnameVALUE;
-		items[1] = m_driverNameVALUE;
-		items[2] = m_driverPatronymicVALUE;
-
-		return items;
+		if (m_driverSurnameVALUE != L"" && m_driverNameVALUE != L"" && m_driverPatronymicVALUE != L"")
+		{
+			items.push_back(m_driverSurnameVALUE);
+			items.push_back(m_driverNameVALUE);
+			items.push_back(m_driverPatronymicVALUE);
+		}
+		break;
 	}
 	case routes_tbl:
 	{
-		CString items[3];
-		items[0] = m_driverId;
-		items[1] = m_carId;
-		items[2] = m_arrivalVALUE;
-
-		return items;
-
+		if (m_driverId != L"" && m_carId != "" && m_arrivalVALUE != L"")
+		{
+			items.push_back(m_driverId);
+			items.push_back(m_carId);
+			items.push_back(m_arrivalVALUE);
+		}
 		break;
 	}
 	default:
 	{
-		return NULL;
+		break;
 	}
 
 	}
-
+	return items;
 }
 
 void CRowEditorDlg::SetDriverTableItems(CString surname, CString name, CString patronymic)

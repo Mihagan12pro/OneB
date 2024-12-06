@@ -47,7 +47,7 @@ private:
 
 public:
 	void SetCarTableItems(CString carNumber, CString carBrand);
-	CString* GetTableItems();
+	vector<CString> GetTableItems();
 
 private:
 	CStatic m_driverSurnameSTATIC;

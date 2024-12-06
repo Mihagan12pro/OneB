@@ -163,6 +163,7 @@ protected:
 	virtual void OnOK();
 public:
 	afx_msg int OnCreate(LPCREATESTRUCT lpCreateStruct);
+	afx_msg void OnAddNewDriver();
 };
 
 CAboutDlg::CAboutDlg() noexcept : CDialogEx(IDD_ABOUTBOX)
@@ -176,6 +177,7 @@ void CAboutDlg::DoDataExchange(CDataExchange* pDX)
 
 BEGIN_MESSAGE_MAP(CAboutDlg, CDialogEx)
 	ON_WM_CREATE()
+	ON_COMMAND(ID_add_new_driver, &CAboutDlg::OnAddNewDriver)
 END_MESSAGE_MAP()
 
 // Команда приложения для запуска диалога
@@ -207,4 +209,14 @@ int CAboutDlg::OnCreate(LPCREATESTRUCT lpCreateStruct)
 	// TODO:  Добавьте специализированный код создания
 
 	return 0;
+}
+
+
+void CAboutDlg::OnAddNewDriver()
+{
+	// TODO: добавьте свой код обработчика команд
+
+	
+
+
 }
