@@ -60,6 +60,7 @@ public:
 //	afx_msg void OnNMClick(NMHDR* pNMHDR, LRESULT* pResult);
 	afx_msg void OnLButtonDblClk(UINT nFlags, CPoint point);
 	afx_msg void OnAddNewDriver();
+	afx_msg void OnAddNewCar();
 };
 
 #ifndef _DEBUG  // версия отладки в OneBView.cpp

@@ -42,6 +42,7 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	//ON_NOTIFY_REFLECT(NM_CLICK, &COneBView::OnNMClick)
 	ON_WM_LBUTTONDBLCLK()
 	ON_COMMAND(ID_add_new_driver, &COneBView::OnAddNewDriver)
+	ON_COMMAND(ID_add_new_car, &COneBView::OnAddNewCar)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -488,6 +489,30 @@ void COneBView::OnAddNewDriver()
 
 
 
+			return;
+		}
+		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
+	}
+}
+
+
+void COneBView::OnAddNewCar()
+{
+	// TODO: добавьте свой код обработчика команд
+	CRowEditorDlg dlg;
+	dlg.InitializingEditor(enums::cars_tbl);
+
+	if (dlg.DoModal() == IDOK)
+	{
+		if (dlg.GetTableItems().size() > 0)
+		{
+			string car_number = CT2A(dlg.GetTableItems()[0]);
+			string car_brand = CT2A(dlg.GetTableItems()[1]);
+			string sql = "INSERT INTO cars (car_number,car_brand) VALUES ('" + car_number + "', '" +car_brand + "')";
+
+			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+			mysql_query(pFrame->conn, sql.c_str());
 			return;
 		}
 		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
