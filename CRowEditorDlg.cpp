@@ -165,70 +165,72 @@ BOOL CRowEditorDlg::OnInitDialog()
 
 		}
 
-
-
-		string driver_id = CT2A(m_driverId);
-		query = "SELECT * FROM drivers WHERE driver_id = "+driver_id;
-
 		
-
-		mysql_query(pFrame->conn, query.c_str());
-		pFrame->res = mysql_store_result(pFrame->conn);
-		pFrame->row = mysql_fetch_row(pFrame->res);
-
-		string surname = pFrame->row[1];
-		string name = pFrame->row[2];
-		string patronymic = pFrame->row[3];
-
-		CString full =CString( (surname + ' ' + name + ' ' + patronymic).c_str());
-
-		for (int i = 0;i < m_driverFullnameCOMBO.GetCount();i++)
+		if (m_driverId != L"" && m_carId != L"")
 		{
-			
-			CString comboFull = L"";
-
-			m_driverFullnameCOMBO.GetLBText(i, comboFull);
-
-			string strFull = CT2A(comboFull);
+			string driver_id = CT2A(m_driverId);
+			query = "SELECT * FROM drivers WHERE driver_id = " + driver_id;
 
 
-			if (comboFull == full)
+
+			mysql_query(pFrame->conn, query.c_str());
+			pFrame->res = mysql_store_result(pFrame->conn);
+			pFrame->row = mysql_fetch_row(pFrame->res);
+
+			string surname = pFrame->row[1];
+			string name = pFrame->row[2];
+			string patronymic = pFrame->row[3];
+
+			CString full = CString((surname + ' ' + name + ' ' + patronymic).c_str());
+
+			for (int i = 0;i < m_driverFullnameCOMBO.GetCount();i++)
 			{
-				m_driverFullnameCOMBO.SetCurSel(i);
-				i = m_driverFullnameCOMBO.GetCount();
+
+				CString comboFull = L"";
+
+				m_driverFullnameCOMBO.GetLBText(i, comboFull);
+
+				string strFull = CT2A(comboFull);
+
+
+				if (comboFull == full)
+				{
+					m_driverFullnameCOMBO.SetCurSel(i);
+					i = m_driverFullnameCOMBO.GetCount();
+				}
 			}
-		}
 
 
 
-		string car_id = CT2A(m_carId);
-		query = "SELECT car_number FROM cars WHERE car_id = " + car_id;
-		mysql_query(pFrame->conn, query.c_str());
-		pFrame->res = mysql_store_result(pFrame->conn);
-		pFrame->row = mysql_fetch_row(pFrame->res);
+			string car_id = CT2A(m_carId);
+			query = "SELECT car_number FROM cars WHERE car_id = " + car_id;
+			mysql_query(pFrame->conn, query.c_str());
+			pFrame->res = mysql_store_result(pFrame->conn);
+			pFrame->row = mysql_fetch_row(pFrame->res);
 
-		string car_number = pFrame->row[0];
+			string car_number = pFrame->row[0];
 
-		int a = m_CarNumberCOMBO.GetCount();
+			int a = m_CarNumberCOMBO.GetCount();
 
-		for (int i = 0; i < m_CarNumberCOMBO.GetCount(); i++)
-		{
-
-			CString comboFull = L"";
-
-			m_CarNumberCOMBO.GetLBText(i, comboFull);
-
-			string strNumber= CT2A(comboFull);
-
-
-			if (strNumber == car_number)
+			for (int i = 0; i < m_CarNumberCOMBO.GetCount(); i++)
 			{
-				m_CarNumberCOMBO.SetCurSel(i);
-				i = m_CarNumberCOMBO.GetCount();
-			}
-		}
 
-		break;
+				CString comboFull = L"";
+
+				m_CarNumberCOMBO.GetLBText(i, comboFull);
+
+				string strNumber = CT2A(comboFull);
+
+
+				if (strNumber == car_number)
+				{
+					m_CarNumberCOMBO.SetCurSel(i);
+					i = m_CarNumberCOMBO.GetCount();
+				}
+			}
+
+			break;
+		}
 	}
 	}
 	return TRUE;  // return TRUE unless you set the focus to a control

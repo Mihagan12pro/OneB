@@ -43,6 +43,7 @@ BEGIN_MESSAGE_MAP(COneBView, CListView)
 	ON_WM_LBUTTONDBLCLK()
 	ON_COMMAND(ID_add_new_driver, &COneBView::OnAddNewDriver)
 	ON_COMMAND(ID_add_new_car, &COneBView::OnAddNewCar)
+	ON_COMMAND(ID_add_new_route, &COneBView::OnAddNewRoute)
 END_MESSAGE_MAP()
 
 // Создание или уничтожение COneBView
@@ -513,6 +514,33 @@ void COneBView::OnAddNewCar()
 			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
 			mysql_query(pFrame->conn, sql.c_str());
+			return;
+		}
+		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
+	}
+}
+
+
+void COneBView::OnAddNewRoute()
+{
+	// TODO: добавьте свой код обработчика команд
+	CRowEditorDlg dlg;
+	dlg.InitializingEditor(enums::routes_tbl);
+
+	if (dlg.DoModal() == IDOK)
+	{
+		if (dlg.GetTableItems().size() > 0)
+		{
+
+			string driver_id = CT2A(dlg.GetTableItems()[0]);
+			string car_id = CT2A(dlg.GetTableItems()[1]);
+			string arrival = CT2A(dlg.GetTableItems()[2]);
+			string sql = "INSERT INTO routes (driver_id,car_id, arrival ) VALUES ('" + driver_id + "', '" + car_id + "', '" + arrival  + "')";
+
+			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
+
+			mysql_query(pFrame->conn, sql.c_str());
+
 			return;
 		}
 		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
