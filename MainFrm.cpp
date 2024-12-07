@@ -181,8 +181,9 @@ BOOL CMainFrame::OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext)
 	COneBDoc* pDoc = (COneBDoc*)GetActiveDocument();
 
 	pDoc->m_pTreeView = (CTableExplorerView*)m_wndSplitter.GetPane(0, 0);
+	
+	pDoc->m_pView = (COneBView*)m_wndSplitter.GetPane(0, 1);
 	pDoc->m_pFormView = (CSortRowsView*)m_wndSplitter.GetPane(0, 2);
-	pDoc->m_pView = (COneBView*)m_wndSplitter.GetPane(0, 2);
 
 	pDoc->m_pTreeView->m_pDoc = pDoc;
 
