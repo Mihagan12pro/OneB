@@ -10,6 +10,7 @@
 #include "MainFrm.h"
 #include"OneBView.h"
 #include"CSortRows.h"
+#include"Connection.h"
 #ifdef _DEBUG
 #define new DEBUG_NEW
 #endif
@@ -44,55 +45,7 @@ CMainFrame::~CMainFrame()
 }
 
 
-void CMainFrame::OnOpenMySql()
-{
-	
 
-	int i = 0;
-	// Получаем дескриптор соединения
-	conn = mysql_init(NULL);
-	if (conn == NULL)
-	{
-		// Если дескриптор не получен – выводим сообщение об ошибке
-		fprintf(stderr, "Error: can'tcreate MySQL-descriptor\n");
-
-	}
-	// Подключаемся к серверу
-	if (!mysql_real_connect(conn, "localhost", "root", "7kjwf*jaksdfVHJ8ds", "logistic", NULL, NULL, 0))
-	{
-		// Если нет возможности установить соединение с сервером
-		// базы данных выводим сообщение об ошибке
-		
-		MessageBox(L"Unfortunately, we have some troubles with connecting to database!");
-		OnClose();
-	}
-	else
-	{
-
-	}
-	mysql_set_character_set(conn,"cp1251");
-	//mysql_set_character_set(conn, "utf8mb3");
-	//Смотрим изменилась ли кодировка на нужную, по умалчанию идёт latin1
-
-
-
-	//string logon = string();
-
-	////cout << logon;
-
-	//DWORD sz = 256;
-
-	//char buff[256];
-
-	//GetComputerNameA(buff, &sz);
-
-	//string compname(buff);
-	//sz = 256;
-
-	//GetUserNameA(buff, &sz);
-	//string user(buff);
-
-}
 
 int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 {
@@ -126,8 +79,7 @@ int CMainFrame::OnCreate(LPCREATESTRUCT lpCreateStruct)
 
 
 
-	OnOpenMySql();
-
+	
 
 
 
@@ -201,7 +153,7 @@ void CMainFrame::OnClose()
 	// TODO: добавьте свой код обработчика сообщений или вызов стандартного
 	
 
-	mysql_close(conn);
+	
 	CFrameWnd::OnClose();
 }
 

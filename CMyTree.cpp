@@ -123,15 +123,15 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		m_pMainView->ClearTable();
 		if (item == m_hRoutes)
 		{
-			m_pMainView->FillTable(routes_tbl);
+			m_pMainView->FillTable(routes_tbl, "SELECT ");
 		}
 		else if (item == m_hDrivers)
 		{
-			m_pMainView->FillTable(drivers_tbl);
+			m_pMainView->FillTable(drivers_tbl, "SELECT ");
 		}
 		else if (item == m_hCars)
 		{
-			m_pMainView->FillTable(cars_tbl);
+			m_pMainView->FillTable(cars_tbl, "SELECT ");
 		}
 
 

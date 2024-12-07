@@ -188,6 +188,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="CMyTree.h" />
+    <ClInclude Include="Connection.h" />
     <ClInclude Include="CRowEditorDlg.h" />
     <ClInclude Include="CSortRows.h" />
     <ClInclude Include="framework.h" />
@@ -202,6 +203,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="CMyTree.cpp" />
+    <ClCompile Include="Connection.cpp" />
     <ClCompile Include="CRowEditorDlg.cpp" />
     <ClCompile Include="CSortRows.cpp" />
     <ClCompile Include="MainFrm.cpp" />

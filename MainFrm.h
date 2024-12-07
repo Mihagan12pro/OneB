@@ -6,6 +6,7 @@
 class COneBView;
 class ConeBDoc;
 class CRowEditorDlg;
+#include"Connection.h"
 #include "mysql.h"
 #include <locale>
 #include <string>
@@ -54,7 +55,7 @@ protected:
 public:
 	afx_msg void OnClose();
 private:
-	void OnOpenMySql();
+	Connection m_Connection;
 
 	MYSQL* conn;
 	MYSQL_RES* res, * reslogon, * reslogoff;

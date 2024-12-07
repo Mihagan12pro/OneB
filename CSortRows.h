@@ -1,8 +1,11 @@
 ﻿#pragma once
 
 
+#include"tables.h"
 
-// представление формы CSortRows
+using namespace enums;
+
+#include"OneBView.h"
 
 class CSortRowsView : public CFormView
 {
@@ -24,6 +27,7 @@ public:
 #endif
 
 protected:
+	friend class COneBView;
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 
 	DECLARE_MESSAGE_MAP()

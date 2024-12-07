@@ -6,6 +6,8 @@
 
 class COneBDoc;
 #include"tables.h"
+#include<string>
+using namespace std;
 class CTableExplorerView;
 
 class COneBView : public CListView
@@ -24,7 +26,7 @@ public:
 	CListCtrl *GetTable();
 // Операции
 public:
-	void FillTable(int tableType);
+	void FillTable(int tableType,string sql);
 	void ClearTable();
 // Переопределение
 public:
