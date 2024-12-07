@@ -47,3 +47,8 @@ vector<vector<CString>> Connection::SELECT(string sql)
 	}
 	return items;
 }
+
+void Connection::UPDATE(string sql)
+{
+	mysql_query(conn, sql.c_str());
+}
