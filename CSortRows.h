@@ -7,13 +7,18 @@ using namespace enums;
 
 #include"OneBView.h"
 
-class CSortRowsView : public CFormView
+class CMainFrame;
+
+
+class CFilterRowsView : public CFormView
 {
-	DECLARE_DYNCREATE(CSortRowsView)
+	DECLARE_DYNCREATE(CFilterRowsView)
 
 protected:
-	CSortRowsView();           // защищенный конструктор, используемый при динамическом создании
-	virtual ~CSortRowsView();
+	CFilterRowsView();           // защищенный конструктор, используемый при динамическом создании
+	virtual ~CFilterRowsView();
+
+	table m_tbl;
 
 public:
 #ifdef AFX_DESIGN_TIME
@@ -27,15 +32,26 @@ public:
 #endif
 
 protected:
+	
 	friend class COneBView;
+	friend class CMainFrame;
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
 	void HideElements();
 	DECLARE_MESSAGE_MAP()
 public:
-	afx_msg void OnBnClickeddropsortButton();
-	afx_msg void OnBnClickedSortButton();
+	afx_msg void OnBnClickedDropFiltersButton();
+	afx_msg void OnBnClickedFilterButton();
 
 	void TableWasSelected(table tbl);
+
+protected:
+	CComboBox m_carNumberCOMBO;
+	CComboBox m_carBrandCOMBO;
+	CEdit m_carNumberEDIT;
+	CEdit m_carBrandEDIT;
+private:
+	COneBView* m_pView;
+	CMainFrame* m_pFrame;
 };
 
 

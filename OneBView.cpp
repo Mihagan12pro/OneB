@@ -178,6 +178,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		CString primaryKey;
 		CRowEditorDlg dlg;
 		string StrPrimaryKey;
+
 		switch (m_pTreeView->GetSelectedItem())
 		{
 		case drivers_tbl:
@@ -271,7 +272,7 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 		}
 			
 		}
-		pFrame->m_Connection.DisConnectr();
+		pFrame->m_Connection.DisConnect();
 
 	}
 
@@ -295,28 +296,26 @@ void  COneBView::SetTreeView(CTableExplorerView* pTree)
 
 void COneBView::FillTable(int tableType, string sql)
 {
-	
+	ClearTable();
 	switch (tableType)
 	{
 		case drivers_tbl:
 		{
 			pTable->InsertColumn(0, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-
 			pTable->InsertColumn(2, L"Отчество водителя", LVCFMT_LEFT, COLUMN_WIDTH);
-			sql += " driver_surname,driver_name, driver_patronymic  FROM drivers";
+		
 			break;
 		}
 		case cars_tbl:
 		{
 			pTable->InsertColumn(0, L"Номер машины", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Марка машины", LVCFMT_LEFT, COLUMN_WIDTH);
-			sql += " car_number, car_brand FROM cars";
 			break;
 		}
 		case routes_tbl:
 		{
-			sql = "SELECT routes.route_id, drivers.driver_surname, drivers.driver_name, drivers.driver_patronymic,cars.car_number, arrival FROM routes JOIN drivers ON drivers.driver_id = routes.driver_id JOIN cars ON cars.car_id = routes.car_id";
+			//sql = "SELECT routes.route_id, drivers.driver_surname, drivers.driver_name, drivers.driver_patronymic,cars.car_number, arrival FROM routes JOIN drivers ON drivers.driver_id = routes.driver_id JOIN cars ON cars.car_id = routes.car_id";
 			pTable->InsertColumn(0, L"Номер рейса", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(1, L"Фамилия водителя", LVCFMT_LEFT, COLUMN_WIDTH);
 			pTable->InsertColumn(2, L"Имя водителя", LVCFMT_LEFT, COLUMN_WIDTH);
@@ -347,7 +346,7 @@ void COneBView::FillTable(int tableType, string sql)
 			pTable->SetItemText(rowId, j, tableItems[i][j]);
 		}
 	}
-	pMainFrm->m_Connection.DisConnectr();
+	pMainFrm->m_Connection.DisConnect();
 
 }
 
@@ -440,7 +439,7 @@ void COneBView::OnAddNewDriver()
 
 			pFrame->m_Connection.INSERT(sql);
 
-			pFrame->m_Connection.DisConnectr();
+			pFrame->m_Connection.DisConnect();
 
 
 
@@ -471,7 +470,7 @@ void COneBView::OnAddNewCar()
 
 			pFrame->m_Connection.INSERT(sql);
 
-			pFrame->m_Connection.DisConnectr();
+			pFrame->m_Connection.DisConnect();
 			return;
 		}
 		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
@@ -501,7 +500,7 @@ void COneBView::OnAddNewRoute()
 
 			pFrame->m_Connection.INSERT(sql);
 
-			pFrame->m_Connection.DisConnectr();
+			pFrame->m_Connection.DisConnect();
 
 			return;
 		}

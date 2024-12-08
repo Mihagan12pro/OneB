@@ -3,7 +3,7 @@
 class COneBDoc;
 class COneBView;
 class CMainFrame;
-class CSortRowsView;
+class CFilterRowsView;
 
 #include"afxcview.h"
 
@@ -12,7 +12,7 @@ class CTableExplorerView : public CTreeView
 	DECLARE_DYNCREATE(CTableExplorerView)
 
 protected:
-	CSortRowsView* m_pFormView;
+	CFilterRowsView* m_pFormView;
 	CTableExplorerView();           // защищенный конструктор, используемый при динамическом создании
 	virtual ~CTableExplorerView();
 

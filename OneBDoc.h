@@ -6,7 +6,7 @@
 #pragma once
 class CTableExplorerView;
 class COneBView;
-class CSortRowsView;
+class CFilterRowsView;
 class COneBDoc : public CDocument
 {
 protected: // создать только из сериализации
@@ -17,7 +17,7 @@ protected: // создать только из сериализации
 public:
 	CTableExplorerView* m_pTreeView;
 	COneBView* m_pView;
-	CSortRowsView* m_pFormView;
+	CFilterRowsView* m_pFormView;
 // Операции
 public:
 

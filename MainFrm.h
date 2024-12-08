@@ -6,6 +6,7 @@
 class COneBView;
 class ConeBDoc;
 class CRowEditorDlg;
+class CFilterRowsView;
 #include"Connection.h"
 #include "mysql.h"
 #include <locale>
@@ -52,6 +53,7 @@ protected:
 	virtual BOOL OnCreateClient(LPCREATESTRUCT lpcs, CCreateContext* pContext);
 	friend class  CTableExplorerView;
 	friend class COneBDoc;
+	friend class CFilterRowsView;
 public:
 	afx_msg void OnClose();
 private:

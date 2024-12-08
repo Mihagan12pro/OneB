@@ -23,7 +23,7 @@ void Connection::Connect()
 	}
 	mysql_set_character_set(conn, "cp1251");
 }
-void Connection::DisConnectr()
+void Connection::DisConnect()
 {
 	mysql_close(conn);
 }

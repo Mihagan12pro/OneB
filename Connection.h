@@ -21,7 +21,7 @@ class Connection
 		Connection();
 
 		void Connect();
-		void DisConnectr();
+		void DisConnect();
 
 		vector<vector<CString>> SELECT(string sql);
 		void UPDATE(string sql);

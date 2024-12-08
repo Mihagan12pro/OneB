@@ -123,15 +123,15 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		m_pMainView->ClearTable();
 		if (item == m_hRoutes)
 		{
-			m_pMainView->FillTable(routes_tbl, "SELECT ");
+			m_pMainView->FillTable(routes_tbl, "SELECT routes.route_id, drivers.driver_surname, drivers.driver_name, drivers.driver_patronymic,cars.car_number, arrival FROM routes JOIN drivers ON drivers.driver_id = routes.driver_id JOIN cars ON cars.car_id = routes.car_id");
 		}
 		else if (item == m_hDrivers)
 		{
-			m_pMainView->FillTable(drivers_tbl, "SELECT ");
+			m_pMainView->FillTable(drivers_tbl, "SELECT driver_surname,driver_name, driver_patronymic  FROM drivers");
 		}
 		else if (item == m_hCars)
 		{
-			m_pMainView->FillTable(cars_tbl, "SELECT ");
+			m_pMainView->FillTable(cars_tbl, "SELECT car_number, car_brand FROM cars");
 			m_pFormView->TableWasSelected(cars_tbl);
 
 		}
