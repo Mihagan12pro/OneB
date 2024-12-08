@@ -239,36 +239,33 @@ void COneBView::OnLButtonDblClk(UINT nFlags, CPoint point)
 
 		case routes_tbl:
 		{
-			/*primaryKey = GetPrimalKey(routes_tbl, row);
+			primaryKey = pTable->GetItemText(row,0);
 
-			string strKey = CT2A(primaryKey);
+			string driver_surname = CT2A(pTable->GetItemText(row, 1));
+			string driver_name = CT2A(pTable->GetItemText(row, 2));
+			string driver_patronymic = CT2A(pTable->GetItemText(row, 3));
+			string arrival = CT2A(pTable->GetItemText(row, 5));
 
+			string car_number = CT2A(pTable->GetItemText(row, 4));
+			sql = "SELECT driver_id FROM drivers WHERE driver_surname = '" + driver_surname + "' AND driver_name = '" + driver_name + "' AND driver_patronymic = '" + driver_patronymic + "'";
+			CString driver_id = pFrame->m_Connection.SELECT(sql)[0][0];
+			CString car_id = pFrame->m_Connection.SELECT("SELECT car_id FROM cars WHERE car_number = '"+car_number+"'")[0][0];
 			dlg.InitializingEditor(enums::routes_tbl);
-			string sql = "SELECT driver_id, car_id,arrival FROM routes WHERE route_id = " + strKey;
-
-			mysql_query(pFrame->conn, sql.c_str());
-			pFrame->res = mysql_store_result(pFrame->conn);
-			pFrame->row = mysql_fetch_row(pFrame->res);
-
-
-			dlg.SetRoutesTableItems(primaryKey,CString( pFrame->row[0]), CString(pFrame->row[1]), CString(pFrame->row[2]));
+			dlg.SetRoutesTableItems(primaryKey, driver_id, car_id, CString(arrival.c_str()));
 
 			if (dlg.DoModal() == IDOK)
 			{
+				string strPrimaryKey = CT2A(primaryKey);
 
-				string driver_id =CT2A(dlg.GetTableItems()[0]);
-				string car_id = CT2A(dlg.GetTableItems()[1]);
-				string arrival = CT2A(dlg.GetTableItems()[2]);
+				string newDriver_id = CT2A(dlg.GetTableItems()[0]);
+				string newCar_id = CT2A(dlg.GetTableItems()[1]);
+				arrival = CT2A(dlg.GetTableItems()[2]);
 
-				sql = "UPDATE routes SET driver_id ='"+driver_id+ "' WHERE driver_id <> '" + driver_id + "' AND route_id = " + strKey;
-				mysql_query(pFrame->conn,sql.c_str());
-
-				sql = "UPDATE routes SET car_id = '" + car_id + "' WHERE car_id <> '" + car_id + "' AND route_id = " + strKey;
-				mysql_query(pFrame->conn, sql.c_str());
-
-				sql = "UPDATE routes SET arrival = '" + arrival + "' WHERE arrival <> '" + arrival + "' AND route_id = " + strKey;
-				mysql_query(pFrame->conn, sql.c_str());
-			}*/
+				pFrame -> m_Connection.UPDATE("UPDATE routes SET driver_id = "+ newDriver_id + " WHERE route_id = "+ strPrimaryKey+" AND driver_id <> "+newDriver_id);
+				pFrame->m_Connection.UPDATE("UPDATE routes SET car_id = "+newCar_id+" WHERE route_id = " + strPrimaryKey + " AND car_id <> " + newCar_id);
+				pFrame->m_Connection.UPDATE("UPDATE routes SET arrival = '"+arrival+"' WHERE route_id = " + strPrimaryKey + " AND arrival <> '" + arrival+"'");
+			}
+			
 
 			break;
 		}

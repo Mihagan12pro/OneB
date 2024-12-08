@@ -139,97 +139,39 @@ BOOL CRowEditorDlg::OnInitDialog()
 		
 		CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-		string query = "SELECT * FROM drivers";
+		pFrame->m_Connection.Connect();
+		string driver_id = CT2A(m_driverId);
 
-		mysql_query(pFrame->conn,query.c_str());
-		pFrame->res = mysql_store_result(pFrame->conn);
+		string sql = "SELECT CONCAT( driver_surname, ' ',driver_name,' ',driver_patronymic) FROM drivers	WHERE driver_id = " + driver_id;
+		
+		CString fullname = CString(pFrame -> m_Connection.SELECT(sql)[0][0]);
+		sql = "SELECT CONCAT( driver_surname, ' ',driver_name,' ',driver_patronymic) FROM drivers";
 
 		
-		while (pFrame->row = mysql_fetch_row(pFrame->res))
+
+		for (int i = 0; i < pFrame->m_Connection.SELECT(sql).size();i++)
 		{
-			string surname = pFrame -> row[1];
-			string name = pFrame -> row[2];
-			string patronymic = pFrame->row[3];
+			m_driverFullnameCOMBO.AddString(CString(pFrame->m_Connection.SELECT(sql)[i][0]));
 
-			string full = surname + ' ' + name + ' ' + patronymic;
-
-			m_driverFullnameCOMBO.AddString(CString(full.c_str()));
-		}
-
-		query = "SELECT * FROM cars";
-		mysql_query(pFrame->conn, query.c_str());
-		pFrame->res = mysql_store_result(pFrame->conn);
-		while (pFrame->row = mysql_fetch_row(pFrame->res))
-		{
-			m_CarNumberCOMBO.AddString(CString(pFrame -> row[1]));
-
-		}
-
+			if (fullname == CString(pFrame->m_Connection.SELECT(sql)[i][0]))
+			{
+				m_driverFullnameCOMBO.SetCurSel(i);
+			}
+		} 
+		string car_id = CT2A(m_carId);
+		sql = "SELECT car_number FROM cars	WHERE car_id = " + car_id;
 		
-		if (m_driverId != L"" && m_carId != L"")
+		CString car_number = pFrame -> m_Connection.SELECT(sql)[0][0];
+		sql = "SELECT car_number FROM cars";
+
+		for (int i = 0; i < pFrame->m_Connection.SELECT(sql).size();i++)
 		{
-			string driver_id = CT2A(m_driverId);
-			query = "SELECT * FROM drivers WHERE driver_id = " + driver_id;
+			m_CarNumberCOMBO.AddString(pFrame->m_Connection.SELECT(sql)[i][0]);
 
-
-
-			mysql_query(pFrame->conn, query.c_str());
-			pFrame->res = mysql_store_result(pFrame->conn);
-			pFrame->row = mysql_fetch_row(pFrame->res);
-
-			string surname = pFrame->row[1];
-			string name = pFrame->row[2];
-			string patronymic = pFrame->row[3];
-
-			CString full = CString((surname + ' ' + name + ' ' + patronymic).c_str());
-
-			for (int i = 0;i < m_driverFullnameCOMBO.GetCount();i++)
+			if (car_number == pFrame->m_Connection.SELECT(sql)[i][0])
 			{
-
-				CString comboFull = L"";
-
-				m_driverFullnameCOMBO.GetLBText(i, comboFull);
-
-				string strFull = CT2A(comboFull);
-
-
-				if (comboFull == full)
-				{
-					m_driverFullnameCOMBO.SetCurSel(i);
-					i = m_driverFullnameCOMBO.GetCount();
-				}
+				m_CarNumberCOMBO.SetCurSel(i);
 			}
-
-
-
-			string car_id = CT2A(m_carId);
-			query = "SELECT car_number FROM cars WHERE car_id = " + car_id;
-			mysql_query(pFrame->conn, query.c_str());
-			pFrame->res = mysql_store_result(pFrame->conn);
-			pFrame->row = mysql_fetch_row(pFrame->res);
-
-			string car_number = pFrame->row[0];
-
-			int a = m_CarNumberCOMBO.GetCount();
-
-			for (int i = 0; i < m_CarNumberCOMBO.GetCount(); i++)
-			{
-
-				CString comboFull = L"";
-
-				m_CarNumberCOMBO.GetLBText(i, comboFull);
-
-				string strNumber = CT2A(comboFull);
-
-
-				if (strNumber == car_number)
-				{
-					m_CarNumberCOMBO.SetCurSel(i);
-					i = m_CarNumberCOMBO.GetCount();
-				}
-			}
-
-			break;
 		}
 	}
 	}
@@ -344,13 +286,10 @@ void CRowEditorDlg::OnCbnSelchangeDriverfullnameCombo()
 
 	string sql = "SELECT driver_id FROM drivers WHERE driver_surname = '"+surname+"' AND driver_name = '"+name+"' AND driver_patronymic = '"+patronymic+"'";
 
-	mysql_query(pFrame->conn,sql.c_str());
 
-	pFrame -> res = mysql_store_result(pFrame->conn);
+	
 
-	pFrame->row = mysql_fetch_row(pFrame->res);
-
-	m_driverId = CString(pFrame->row[0]);	
+	m_driverId = CString(pFrame->m_Connection.SELECT(sql)[0][0]);
 }
 
 
@@ -366,13 +305,7 @@ void CRowEditorDlg::OnCbnSelchangerouteCarNumberCombo()
 
 	string sql = "SELECT car_id FROM cars WHERE car_number = '"+strCarNumber+"'";
 
-	mysql_query(pFrame->conn,sql.c_str());
-
-	pFrame->res = mysql_store_result(pFrame->conn);
-	pFrame->row = mysql_fetch_row(pFrame->res);
-
-	m_carId = CString(pFrame->row[0]);
-	auto a = m_carId;
+	m_carId = pFrame->m_Connection.SELECT(sql)[0][0];
 	
 	// TODO: добавьте свой код обработчика уведомлений
 }
