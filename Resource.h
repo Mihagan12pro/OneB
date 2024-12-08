@@ -33,7 +33,13 @@
 #define IDC_Route_Car_NumberSTATIC      1043
 #define IDC_MFCVSLISTBOX1               1044
 #define IDC_MONTHCALENDAR1              1045
-#define IDC_EDIT1                       1046
+#define IDC_Sort_BUTTON                 1047
+#define IDC_car_number_STATIC           1048
+#define IDC_car_numberEDIT              1049
+#define IDC_drop_sort_BUTTON            1050
+#define IDC_How_sort_car_numbers_COMBO  1051
+#define IDC_car_brand_STATIC            1052
+#define IDC_Car_brand_COMBO             1053
 #define ID_32771                        32771
 #define ID_32772                        32772
 #define ID_32773                        32773
@@ -46,9 +52,9 @@
 // 
 #ifdef APSTUDIO_INVOKED
 #ifndef APSTUDIO_READONLY_SYMBOLS
-#define _APS_NEXT_RESOURCE_VALUE        322
+#define _APS_NEXT_RESOURCE_VALUE        323
 #define _APS_NEXT_COMMAND_VALUE         32778
-#define _APS_NEXT_CONTROL_VALUE         1047
+#define _APS_NEXT_CONTROL_VALUE         1054
 #define _APS_NEXT_SYMED_VALUE           314
 #endif
 #endif

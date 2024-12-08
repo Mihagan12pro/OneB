@@ -10,6 +10,7 @@
 #include<vector>
 #include<string>
 #include"tables.h"
+#include"CSortRows.h"
 #define CARS 0
 #define DRIVERS 1
 #define ROUTES 2
@@ -78,8 +79,7 @@ void CTableExplorerView::FillTree()
 	tree.SetItemData(m_hDrivers, 2);
 
 
-
-
+	
 	tree.Expand(m_hTablesList, TVE_EXPAND);
 
 	//tree.SelectItem(m_hTablesList);
@@ -132,6 +132,8 @@ void CTableExplorerView::OnLButtonDown(UINT nFlags, CPoint point)
 		else if (item == m_hCars)
 		{
 			m_pMainView->FillTable(cars_tbl, "SELECT ");
+			m_pFormView->TableWasSelected(cars_tbl);
+
 		}
 
 

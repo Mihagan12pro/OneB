@@ -29,8 +29,13 @@ public:
 protected:
 	friend class COneBView;
 	virtual void DoDataExchange(CDataExchange* pDX);    // поддержка DDX/DDV
-
+	void HideElements();
 	DECLARE_MESSAGE_MAP()
+public:
+	afx_msg void OnBnClickeddropsortButton();
+	afx_msg void OnBnClickedSortButton();
+
+	void TableWasSelected(table tbl);
 };
 
 
