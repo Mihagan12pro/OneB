@@ -144,7 +144,13 @@ BOOL CRowEditorDlg::OnInitDialog()
 
 		string sql = "SELECT CONCAT( driver_surname, ' ',driver_name,' ',driver_patronymic) FROM drivers	WHERE driver_id = " + driver_id;
 		
-		CString fullname = CString(pFrame -> m_Connection.SELECT(sql)[0][0]);
+		CString fullname = L"";
+		
+
+		if (m_driverId != L"")
+		{
+			fullname = CString(pFrame->m_Connection.SELECT(sql)[0][0]);
+		}
 		sql = "SELECT CONCAT( driver_surname, ' ',driver_name,' ',driver_patronymic) FROM drivers";
 
 		
@@ -161,7 +167,13 @@ BOOL CRowEditorDlg::OnInitDialog()
 		string car_id = CT2A(m_carId);
 		sql = "SELECT car_number FROM cars	WHERE car_id = " + car_id;
 		
-		CString car_number = pFrame -> m_Connection.SELECT(sql)[0][0];
+		CString car_number = L"";
+
+		if (m_carId!=L"")
+		{
+			car_number = pFrame->m_Connection.SELECT(sql)[0][0];
+		}
+
 		sql = "SELECT car_number FROM cars";
 
 		for (int i = 0; i < pFrame->m_Connection.SELECT(sql).size();i++)

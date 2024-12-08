@@ -52,3 +52,7 @@ void Connection::UPDATE(string sql)
 {
 	mysql_query(conn, sql.c_str());
 }
+void Connection::INSERT(string sql)
+{
+	mysql_query(conn, sql.c_str());
+}

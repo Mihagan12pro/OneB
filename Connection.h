@@ -25,5 +25,6 @@ class Connection
 
 		vector<vector<CString>> SELECT(string sql);
 		void UPDATE(string sql);
+		void INSERT(string sql);
 };
 

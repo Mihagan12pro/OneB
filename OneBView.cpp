@@ -436,7 +436,11 @@ void COneBView::OnAddNewDriver()
 			
 			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-			mysql_query(pFrame->conn,sql.c_str());
+			pFrame->m_Connection.Connect();
+
+			pFrame->m_Connection.INSERT(sql);
+
+			pFrame->m_Connection.DisConnectr();
 
 
 
@@ -463,7 +467,11 @@ void COneBView::OnAddNewCar()
 
 			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-			mysql_query(pFrame->conn, sql.c_str());
+			pFrame->m_Connection.Connect();
+
+			pFrame->m_Connection.INSERT(sql);
+
+			pFrame->m_Connection.DisConnectr();
 			return;
 		}
 		AfxMessageBox(L"Были поданы некорректные данные! Таблица обновлена не будет!");
@@ -489,7 +497,11 @@ void COneBView::OnAddNewRoute()
 
 			CMainFrame* pFrame = (CMainFrame*)AfxGetMainWnd();
 
-			mysql_query(pFrame->conn, sql.c_str());
+			pFrame->m_Connection.Connect();
+
+			pFrame->m_Connection.INSERT(sql);
+
+			pFrame->m_Connection.DisConnectr();
 
 			return;
 		}
